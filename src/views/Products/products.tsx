@@ -55,7 +55,22 @@ export default function Products() {
 
 	const handleAddProduct = () => {
 		setWaiting(true);
-		fetch(`/api/add_product?name=${newProduct.name}&unit=${newProduct.unit}&x1000=${newProduct.x1000}`)
+
+		// format fields
+		const name = newProduct.name.trim();
+		const unit = newProduct.unit.trim();
+		const x1000 = newProduct.x1000.trim();
+
+		// checks if product already in list
+		if (products.find(product => product.name.toLocaleLowerCase() === name.toLocaleLowerCase())) {
+			if (!confirm(`O produto ${name} já está na lista.\nAdicionar outro?`)) {
+				setWaiting(false);
+				return;
+			}
+		}
+
+		// add product
+		fetch(`/api/add_product?name=${name}&unit=${unit}&x1000=${x1000}`)
 			.then(res => res.json())
 			.then(data => {
 				if (isProduct(data.data)) {
