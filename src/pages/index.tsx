@@ -15,6 +15,23 @@ export default function Home() {
 		// 	.then(res => res.json())
 		// 	.then(console.log);
 
+
+		// RECIPES
+		// update
+		fetch('/api/update_recipe?id=a81780d9-8814-4757-bc28-7b907c3f015f&name=Inhames Vivos', { method: 'PUT' })
+			.then(res => res.json())
+			.then(console.log);
+		// add
+		// fetch('/api/add_recipe?name=File à Parmegiana', { method: 'POST' })
+		// 	.then(res => res.json())
+		// 	.then(console.log);
+
+		// get
+		// fetch('/api/recipes')
+		// 	.then(res => res.json())
+		// 	.then(console.log);
+
+
 		// PRODUCTS
 		// update
 		// fetch('/api/update_product?id=5bea39cb-58ac-4ca9-b98a-5371afbbdf6a&name=Arroz&unit=g&x1000=kg', { method: 'PUT' })
