@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--primary);
+  padding: 0.5rem 1rem;
+}
+
+.icon {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.title {
+  margin: 0;
+}

@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.tableContainer {
+  border: 1px solid var(--primary);
+  border-radius: var(--headerRadius);
+  overflow: hidden;
+}
+
+.addBar {
+  background-color: var(--accentPrimary);
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  padding: 0.2rem 0.2rem;
+  border-radius: var(--inputRadius);
+  border: 1px solid var(--onPrimary);
+  outline: none;
+}
+
+.inputSmall {
+  width: 4rem;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tableHead {
+  background-color: var(--primary);
+  text-align: left;
+}
+
+.tableHeadItem {
+  padding: 0.5rem 0.5rem;
+}
+
+.tableBodyRow {
+  background-color: var(--table);
+}
+
+.tableBodyRow:nth-child(even) {
+  background-color: var(--tableEven);
+}
+
+.tableBodyItem {
+  color: white;
+  padding: 0.25rem 0.5rem;
+}

@@ -1,2 +1,44 @@
 :root {
+  --background: #222;
+  --onBackground: white;
+  --primary: coral;
+  --onPrimary: black;
+  --accentPrimary: #fda585;
+  --buttonGood: forestgreen;
+  --buttonBad: darkred;
+  --table: black;
+  --tableEven: #333;
+  --overlayBackground: rgba(0, 0, 0, 0.5);
+  --headerRadius: 0.5rem;
+  --inputRadius: 0.25rem;
+  --transitionSpeed: 0.25s;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--background);
 }
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* print */
+@media print {
+  :root {
+    --background: transparent;
+    --onBackground: black;
+    --primary: #aaa;
+    --table: transparent;
+    --tableEven: #ddd;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  @page {
+    size: landscape;
+    orientation: landscape;
+  }
+}
+
