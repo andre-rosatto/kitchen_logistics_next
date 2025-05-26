@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './products.module.css';
 import ListHeader from '@/components/ListHeader';
 import IconButton from '@/components/IconButton';
+import WaitOverlay from '@/components/WaitOverlay';
 
 type Product = {
 	id: string;
@@ -28,8 +29,10 @@ const isProductArray = (obj: unknown): obj is Product[] => {
 export default function Products() {
 	const [newProduct, setNewProduct] = useState<Omit<Product, 'id'>>({ name: '', unit: '', x1000: '' });
 	const [products, setProducts] = useState<Product[]>([]);
+	const [waiting, setWaiting] = useState(true);
 
 	useEffect(() => {
+		setWaiting(true);
 		fetch('/api/products')
 			.then(res => res.json())
 			.then(result => {
@@ -38,6 +41,7 @@ export default function Products() {
 				} else {
 					console.log('Error fetching data: ', result);
 				}
+				setWaiting(false);
 			});
 	}, []);
 
@@ -47,6 +51,21 @@ export default function Products() {
 			unit: field === 'unit' ? value : newProduct.unit,
 			x1000: field === 'x1000' ? value : newProduct.x1000
 		}));
+	}
+
+	const handleAddProduct = () => {
+		setWaiting(true);
+		fetch(`/api/add_product?name=${newProduct.name}&unit=${newProduct.unit}&x1000=${newProduct.x1000}`)
+			.then(res => res.json())
+			.then(data => {
+				if (isProduct(data.data)) {
+					const nextProducts = [data.data, ...products];
+					setProducts(nextProducts);
+				} else {
+					console.log('Error adding product', data);
+				}
+				setWaiting(false);
+			});
 	}
 
 	return (
@@ -84,7 +103,7 @@ export default function Products() {
 					</label>
 					<IconButton
 						type='add'
-						onClick={() => console.log('click')}
+						onClick={handleAddProduct}
 						disabled={newProduct.name.trim() === '' || newProduct.unit.trim() === ''}
 					/>
 				</div>
@@ -123,6 +142,9 @@ export default function Products() {
 					</tbody>
 				</table>
 			</div>
+
+			{/* wait overlay */}
+			{waiting && <WaitOverlay />}
 		</main>
 	)
 }

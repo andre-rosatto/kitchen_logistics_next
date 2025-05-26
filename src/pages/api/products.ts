@@ -13,7 +13,8 @@ export default async function handler(
 		await client.connect();
 		const data = await client.query(`
 			SELECT id, name, unit, x1000
-			FROM products;
+			FROM products
+			ORDER BY name;
 		`);
 		const result = data.rows.map(product => ({
 			id: product.id,
