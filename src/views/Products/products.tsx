@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './products.module.css';
 import ListHeader from '@/components/ListHeader';
-import AddButton from '@/components/AddButton';
-import DeleteButton from '@/components/DeleteButton';
+import IconButton from '@/components/IconButton';
 
 type Product = {
 	id: string;
@@ -83,7 +82,8 @@ export default function Products() {
 							onChange={e => handleNewProductChange('x1000', e.currentTarget.value)}
 						/>
 					</label>
-					<AddButton
+					<IconButton
+						type='add'
 						onClick={() => console.log('click')}
 						disabled={newProduct.name.trim() === '' || newProduct.unit.trim() === ''}
 					/>
@@ -113,7 +113,10 @@ export default function Products() {
 								<td className={styles.tableBodyItem}>{product.unit}</td>
 								<td className={styles.tableBodyItem}>{product.x1000}</td>
 								<td className={styles.tableBodyItem}>
-									<DeleteButton onClick={() => console.log('delete')} />
+									<IconButton
+										type='delete'
+										onClick={() => console.log('delete')}
+									/>
 								</td>
 							</tr>
 						))}
