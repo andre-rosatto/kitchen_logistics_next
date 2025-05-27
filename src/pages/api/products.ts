@@ -14,7 +14,7 @@ export default async function handler(
 		const data = await client.query(`
 			SELECT id, name, unit, x1000
 			FROM products
-			ORDER BY name;
+			ORDER BY name COLLATE "und-x-icu";
 		`);
 		const result = data.rows.map(product => ({
 			id: product.id,

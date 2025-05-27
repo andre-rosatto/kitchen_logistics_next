@@ -3,13 +3,17 @@ import styles from './products.module.css';
 import ListHeader from '@/components/ListHeader';
 import IconButton from '@/components/IconButton';
 import WaitOverlay from '@/components/WaitOverlay';
+import TableInput from '@/components/TableInput';
+import Summary from '@/components/Summary';
 
-type Product = {
+export type Product = {
 	id: string;
 	name: string;
 	unit: string;
 	x1000: string;
 }
+
+type ProductField = 'name' | 'unit' | 'x1000';
 
 const isProduct = (obj: unknown): obj is Product => {
 	return (
@@ -33,6 +37,8 @@ export default function Products() {
 
 	useEffect(() => {
 		setWaiting(true);
+
+		// fetch all products
 		fetch('/api/products')
 			.then(res => res.json())
 			.then(result => {
@@ -45,12 +51,43 @@ export default function Products() {
 			});
 	}, []);
 
-	const handleNewProductChange = (field: 'name' | 'unit' | 'x1000', value: string) => {
+	const handleNewProductChange = (field: ProductField, value: string) => {
 		setNewProduct(newProduct => ({
 			name: field === 'name' ? value : newProduct.name,
 			unit: field === 'unit' ? value : newProduct.unit,
 			x1000: field === 'x1000' ? value : newProduct.x1000
 		}));
+	}
+
+	const handleProductChange = (id: string, field: ProductField, value: string) => {
+		const productIdx = products.findIndex(product => product.id === id);
+		if (productIdx < 0) return;
+		const nextProduct = { ...products[productIdx] };
+		switch (field) {
+			case 'name':
+				nextProduct.name = value;
+				break;
+			case 'unit':
+				nextProduct.unit = value;
+				break;
+			case 'x1000':
+				nextProduct.x1000 = value;
+				break;
+		}
+
+		setWaiting(true);
+		fetch(`/api/update_product?id=${id}&name=${nextProduct.name}&unit=${nextProduct.unit}&x1000=${nextProduct.x1000}`)
+			.then(res => res.json())
+			.then(data => {
+				if (data.ok) {
+					setProducts(products => products.map(product => (
+						product.id !== id ? product : nextProduct
+					)));
+				} else {
+					console.log('Error updating product', data);
+				}
+				setWaiting(false);
+			});
 	}
 
 	const handleAddProduct = () => {
@@ -76,8 +113,32 @@ export default function Products() {
 				if (isProduct(data.data)) {
 					const nextProducts = [data.data, ...products];
 					setProducts(nextProducts);
+					setNewProduct({
+						name: '',
+						unit: '',
+						x1000: ''
+					});
 				} else {
 					console.log('Error adding product', data);
+				}
+				setWaiting(false);
+			});
+	}
+
+	const handleProductDelete = (id: string) => {
+		const product = products.filter(p => p.id === id);
+		if (product.length !== 1) return;
+		if (!confirm(`Tem certeza de que deseja excluir este produto?\nO produto também será excluído das receitas.\nEsta ação não pode ser desfeita.\n\nProduto: ${product[0].name}\nUnidade: ${product[0].unit}\nx1000: ${product[0].x1000}`)) {
+			return;
+		}
+		setWaiting(true);
+		fetch(`/api/delete_product?id=${id}`)
+			.then(res => res.json())
+			.then(data => {
+				if (data.ok) {
+					setProducts(products => products.filter(product => product.id !== id));
+				} else {
+					console.log('Error deleting product', data);
 				}
 				setWaiting(false);
 			});
@@ -86,10 +147,12 @@ export default function Products() {
 	return (
 		<main className={styles.container}>
 			{/* Summary */}
-			<div></div>
+			<Summary
+				items={products}
+			/>
 
 			{/* main */}
-			<div className={styles.tableContainer}>
+			<div className={styles.listContainer}>
 				{/* header */}
 				<ListHeader />
 
@@ -99,6 +162,7 @@ export default function Products() {
 						Novo produto:
 						<input
 							className={styles.input}
+							value={newProduct.name}
 							onChange={e => handleNewProductChange('name', e.currentTarget.value)}
 						/>
 					</label>
@@ -106,6 +170,7 @@ export default function Products() {
 						Unidade:
 						<input
 							className={styles.input}
+							value={newProduct.unit}
 							onChange={e => handleNewProductChange('unit', e.currentTarget.value)}
 						/>
 					</label>
@@ -113,6 +178,7 @@ export default function Products() {
 						x1000:
 						<input
 							className={styles.input}
+							value={newProduct.x1000}
 							onChange={e => handleNewProductChange('x1000', e.currentTarget.value)}
 						/>
 					</label>
@@ -124,38 +190,57 @@ export default function Products() {
 				</div>
 
 				{/* table */}
-				<table className={styles.table}>
-					{/* table head */}
-					<thead className={styles.tableHead}>
-						<tr>
-							<th className={styles.tableHeadItem}>Produto</th>
-							<th className={styles.tableHeadItem}>Unidade</th>
-							<th className={styles.tableHeadItem}>x1000</th>
-							<th className={styles.tableHeadItem}></th>
-						</tr>
-					</thead>
-
-					{/* table body */}
-					<tbody>
-						{products.map(product => (
-							<tr
-								key={product.id}
-								id={`_${product.id}`}
-								className={styles.tableBodyRow}
-							>
-								<td className={styles.tableBodyItem}>{product.name}</td>
-								<td className={styles.tableBodyItem}>{product.unit}</td>
-								<td className={styles.tableBodyItem}>{product.x1000}</td>
-								<td className={styles.tableBodyItem}>
-									<IconButton
-										type='delete'
-										onClick={() => console.log('delete')}
-									/>
-								</td>
+				<div className={styles.tableContainer}>
+					<table className={styles.table}>
+						{/* table head */}
+						<thead className={styles.tableHead}>
+							<tr>
+								<th className={styles.tableHeadItem}>Produto</th>
+								<th className={styles.tableHeadItem}>Unidade</th>
+								<th className={styles.tableHeadItem}>x1000</th>
+								<th className={styles.tableHeadItem}></th>
 							</tr>
-						))}
-					</tbody>
-				</table>
+						</thead>
+
+						{/* table body */}
+						<tbody>
+							{products.map(product => (
+								<tr
+									key={product.id}
+									id={`_${product.id}`}
+									className={styles.tableBodyRow}
+								>
+									<td className={styles.tableBodyItem}>
+										<TableInput
+											initialValue={product.name}
+											allowEmpty={false}
+											onChange={value => handleProductChange(product.id, 'name', value)}
+										/>
+									</td>
+									<td className={styles.tableBodyItem}>
+										<TableInput
+											initialValue={product.unit}
+											allowEmpty={false}
+											onChange={value => handleProductChange(product.id, 'unit', value)}
+										/>
+									</td>
+									<td className={styles.tableBodyItem}>
+										<TableInput
+											initialValue={product.x1000}
+											onChange={value => handleProductChange(product.id, 'x1000', value)}
+										/>
+									</td>
+									<td className={styles.tableBodyItem}>
+										<IconButton
+											type='delete'
+											onClick={() => handleProductDelete(product.id)}
+										/>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
 			</div>
 
 			{/* wait overlay */}

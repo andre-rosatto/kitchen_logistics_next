@@ -2,12 +2,20 @@
   display: flex;
   justify-content: center;
   gap: 0.25rem;
+  overflow-y: hidden;
+  padding-top: 4rem;
+  max-height: 100dvh;
+  box-sizing: border-box;
 }
 
-.tableContainer {
+.listContainer {
   border: 1px solid var(--primary);
   border-radius: var(--headerRadius);
-  overflow: hidden;
+  max-height: 100%;
+  box-sizing: border-box;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .addBar {
@@ -35,12 +43,22 @@
   width: 4rem;
 }
 
+.tableContainer {
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: block;
+  box-sizing: border-box;
+}
+
 .table {
   border-collapse: collapse;
   width: 100%;
 }
 
 .tableHead {
+  position: sticky;
+  top: 0;
   background-color: var(--primary);
   text-align: left;
 }

@@ -1,6 +1,8 @@
 .container {
   background-color: var(--primary);
   margin-bottom: 1rem;
+  position: fixed;
+  width: 100%;
 }
 
 .menuBar {

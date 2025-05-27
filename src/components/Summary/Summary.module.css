@@ -1,0 +1,57 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--primary);
+  border-radius: var(--headerRadius);
+  /* height: fit-content; */
+  /* overflow: hidden; */
+  /* position: sticky; */
+  /* top: 0; */
+  max-height: 100%;
+  overflow-y: hidden;
+}
+
+.header {
+  display: flex;
+  background-color: var(--primary);
+  color: var(--onPrimary);
+  padding: 0.5rem;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.linksContainer {
+  max-height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.link {
+  color: var(--onBackground);
+  text-decoration: none;
+  background-color: var(--table);
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color var(--transitionSpeed),
+    color var(--transitionSpeed);
+}
+
+.link:nth-child(even) {
+  background-color: var(--tableEven);
+}
+
+.link:hover {
+  background-color: var(--accentPrimary);
+  color: var(--onPrimary);
+}

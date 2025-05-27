@@ -16,6 +16,28 @@
   background-color: var(--background);
 }
 
+/* The entire scrollbar */
+::-webkit-scrollbar {
+  width: 0.25rem; /* vertical scrollbar */
+  height: 0.25rem; /* horizontal scrollbar */
+}
+
+/* The track (progress bar) of the scrollbar */
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
+/* The draggable scrolling handle */
+::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 0.25rem;
+}
+
+/* On hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 body {
   margin: 0;
   padding: 0;
