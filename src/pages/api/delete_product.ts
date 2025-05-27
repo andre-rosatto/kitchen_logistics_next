@@ -21,7 +21,7 @@ export default async function handler(
 		await client.connect();
 		await client.query(`
 			DELETE FROM products
-			WHERE id=$1
+			WHERE id=$1;
 		`, [id]);
 		res.status(200).json({
 			ok: true,

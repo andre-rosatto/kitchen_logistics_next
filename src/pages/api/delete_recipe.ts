@@ -6,23 +6,25 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
+	const id = req.query['id'];
+	if (!id) {
+		res.status(401).json({
+			ok: false,
+			error: 'id is required;'
+		});
+	}
+
 	const client = new Pool({ connectionString: process.env.CONNECTION_STRING });
-	console.log('connected (recipes)');
+	console.log('connected (delete_recipe)');
 
 	try {
 		await client.connect();
-		const data = await client.query(`
-			SELECT id, name
-			FROM recipes
-			ORDER BY name COLLATE "und-x-icu";
-		`);
-		const result = data.rows.map(product => ({
-			id: product.id,
-			name: product.name,
-		}));
+		await client.query(`
+			DELETE FROM recipes
+			WHERE id=$1;
+		`, [id]);
 		res.status(200).json({
 			ok: true,
-			data: result,
 		});
 	} catch (e) {
 		res.status(401).json({

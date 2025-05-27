@@ -1,0 +1,7 @@
+.container {
+  color: var(--onPrimary);
+  border-radius: var(--inputRadius);
+  outline: none;
+  border: 1px solid var(--onPrimary);
+  padding: 0.25rem 0.5rem;
+}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from './products.module.css';
+import styles from './Products.module.css';
 import ListHeader from '@/components/ListHeader';
 import IconButton from '@/components/IconButton';
 import WaitOverlay from '@/components/WaitOverlay';

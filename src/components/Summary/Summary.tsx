@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import styles from './Summary.module.css';
 import { useViewContext } from '@/contexts/ViewContext';
-import { Product } from '@/views/Products/products';
+import { Product } from '@/views/Products/Products';
 import { useMemo } from 'react';
 
 interface SummaryProps {

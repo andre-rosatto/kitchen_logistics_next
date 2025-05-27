@@ -3,6 +3,7 @@ import Head from "next/head";
 import ViewContextProvider, { useViewContext } from "@/contexts/ViewContext";
 import Navbar from "@/components/Navbar";
 import Products from "@/views/Products";
+import Recipes from "@/views/Recipes";
 
 
 export default function Home() {
@@ -65,7 +66,7 @@ export default function Home() {
 			case 0:
 				return null;
 			case 1:
-				return null;
+				return <Recipes />;
 			case 2:
 				return <Products />;
 			default:
