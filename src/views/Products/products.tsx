@@ -190,56 +190,50 @@ export default function Products() {
 				</div>
 
 				{/* table */}
-				<div className={styles.tableContainer}>
-					<table className={styles.table}>
-						{/* table head */}
-						<thead className={styles.tableHead}>
-							<tr>
-								<th className={styles.tableHeadItem}>Produto</th>
-								<th className={styles.tableHeadItem}>Unidade</th>
-								<th className={styles.tableHeadItem}>x1000</th>
-								<th className={styles.tableHeadItem}></th>
-							</tr>
-						</thead>
+				{/* table head */}
+				<div className={styles.tableHead}>
+					<span className={`${styles.tableHeadItem} ${styles.tableColumn}`}>Produto</span>
+					<span className={`${styles.tableHeadItem} ${styles.tableColumnSmall}`}>Unidade</span>
+					<span className={`${styles.tableHeadItem} ${styles.tableColumnSmall}`}>x1000</span>
+					<span className={`${styles.tableHeadItem} ${styles.tableColumnIcon}`}></span>
+				</div>
 
-						{/* table body */}
-						<tbody>
-							{products.map(product => (
-								<tr
-									key={product.id}
-									id={`_${product.id}`}
-									className={styles.tableBodyRow}
-								>
-									<td className={styles.tableBodyItem}>
-										<TableInput
-											initialValue={product.name}
-											allowEmpty={false}
-											onChange={value => handleProductChange(product.id, 'name', value)}
-										/>
-									</td>
-									<td className={styles.tableBodyItem}>
-										<TableInput
-											initialValue={product.unit}
-											allowEmpty={false}
-											onChange={value => handleProductChange(product.id, 'unit', value)}
-										/>
-									</td>
-									<td className={styles.tableBodyItem}>
-										<TableInput
-											initialValue={product.x1000}
-											onChange={value => handleProductChange(product.id, 'x1000', value)}
-										/>
-									</td>
-									<td className={styles.tableBodyItem}>
-										<IconButton
-											type='delete'
-											onClick={() => handleProductDelete(product.id)}
-										/>
-									</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
+				{/* table body */}
+				<div className={styles.table}>
+					{products.map(product => (
+						<div
+							key={product.id}
+							id={`_${product.id}`}
+							className={styles.tableRow}
+						>
+							<span className={`${styles.tableItem} ${styles.tableColumn}`}>
+								<TableInput
+									initialValue={product.name}
+									allowEmpty={false}
+									onChange={value => handleProductChange(product.id, 'name', value)}
+								/>
+							</span>
+							<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
+								<TableInput
+									initialValue={product.unit}
+									allowEmpty={false}
+									onChange={value => handleProductChange(product.id, 'unit', value)}
+								/>
+							</span>
+							<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
+								<TableInput
+									initialValue={product.x1000}
+									onChange={value => handleProductChange(product.id, 'x1000', value)}
+								/>
+							</span>
+							<span className={`${styles.tableItem} ${styles.tableColumnIcon}`}>
+								<IconButton
+									type='delete'
+									onClick={() => handleProductDelete(product.id)}
+								/>
+							</span>
+						</div>
+					))}
 				</div>
 			</div>
 
