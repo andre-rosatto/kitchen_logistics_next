@@ -16,18 +16,15 @@
   background-color: var(--background);
 }
 
-/* The entire scrollbar */
 ::-webkit-scrollbar {
-  width: 0.25rem; /* vertical scrollbar */
-  height: 0.25rem; /* horizontal scrollbar */
+  width: 0.25rem;
+  height: 0.25rem;
 }
 
-/* The track (progress bar) of the scrollbar */
 ::-webkit-scrollbar-track {
   background: #111;
 }
 
-/* The draggable scrolling handle */
 ::-webkit-scrollbar-thumb {
   background: #666;
   border-radius: 0.25rem;
