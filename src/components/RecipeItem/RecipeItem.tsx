@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import IconButton from '../IconButton';
 import { Product } from '@/views/Products/Products';
 import TableSelect from '../TableSelect';
+import { strToFloat } from '@/utils/converter';
 
 interface RecipeItemProps {
 	recipe: Recipe;
@@ -48,8 +49,13 @@ export default function RecipeItem({ recipe, products, onRecipeNameChange, onRec
 
 	const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		let formattedValue = e.currentTarget.value.trim();
-		formattedValue = formattedValue.replace(/[^(0-9)]+/g, '');
+		formattedValue = formattedValue.replace(/[^(0-9).,]+/g, '');
 		setAmount(formattedValue);
+	}
+
+	const handleAmountBlur = () => {
+		const formattedValue = strToFloat(amount);
+		setAmount(Number.isInteger(formattedValue) ? formattedValue.toString() : formattedValue.toFixed(2));
 	}
 
 	const handleAddProduct = () => {
@@ -101,6 +107,7 @@ export default function RecipeItem({ recipe, products, onRecipeNameChange, onRec
 						className={`${styles.input} ${styles.inputSmall}`}
 						value={amount}
 						onChange={handleAmountChange}
+						onBlur={handleAmountBlur}
 					/>
 					{product.unit}
 				</label>
