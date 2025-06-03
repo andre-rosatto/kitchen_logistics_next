@@ -15,6 +15,7 @@ interface RecipeItemProps extends React.ComponentProps<'div'> {
 	onRecipeDelete: (id: string) => void;
 	onProductAdd: (id: string, amount: number) => void;
 	onProductDelete: (id: string) => void;
+	onProductChange: (ingredientId: string, productId: string) => void;
 	onProductAmountChange: (id: string, amount: number) => void;
 }
 
@@ -25,6 +26,7 @@ export default function RecipeItem({
 	onRecipeDelete,
 	onProductAdd,
 	onProductDelete,
+	onProductChange,
 	onProductAmountChange,
 	...props
 }: RecipeItemProps) {
@@ -148,8 +150,8 @@ export default function RecipeItem({
 			<div className={styles.table}>
 				{recipe.ingredients.map(ingredient => (
 					<div
-						key={ingredient.productId}
-						id={`_${ingredient.productId}`}
+						key={ingredient.ingredientId}
+						id={`_${ingredient.ingredientId}`}
 						className={styles.tableRow}
 					>
 						{/* product name */}
@@ -157,7 +159,7 @@ export default function RecipeItem({
 							<TableSelect
 								items={products}
 								initialValue={ingredient.productId}
-								onSelectChange={() => { }}
+								onSelectChange={id => onProductChange(ingredient.ingredientId, id)}
 							/>
 						</span>
 
@@ -165,7 +167,7 @@ export default function RecipeItem({
 						<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
 							<TableInput
 								initialValue={Number.isInteger(ingredient.amount) ? ingredient.amount.toString() : ingredient.amount.toFixed(3)}
-								onChange={newValue => onProductAmountChange(ingredient.productId, parseFloat(newValue))}
+								onChange={newValue => onProductAmountChange(ingredient.ingredientId, parseFloat(newValue))}
 							/>
 						</span>
 
@@ -178,7 +180,7 @@ export default function RecipeItem({
 						<span className={`${styles.tableItem} ${styles.tableColumnIcon}`}>
 							<IconButton
 								type='delete'
-								onClick={() => onProductDelete(ingredient.productId)}
+								onClick={() => onProductDelete(ingredient.ingredientId)}
 							/>
 						</span>
 					</div>

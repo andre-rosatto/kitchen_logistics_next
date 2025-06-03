@@ -16,7 +16,7 @@ export default async function handler(
 			ORDER BY name COLLATE "und-x-icu";
 		`);
 		const ingredients = await client.query(`
-			SELECT product_id, recipe_id, amount
+			SELECT id, product_id, recipe_id, amount
 			FROM recipes_products;
 		`);
 
@@ -24,6 +24,7 @@ export default async function handler(
 			id: recipe.id,
 			name: recipe.name,
 			ingredients: ingredients.rows.filter(row => row.recipe_id === recipe.id).map(item => ({
+				ingredientId: item.id,
 				productId: item.product_id,
 				amount: parseFloat(item.amount),
 			})),

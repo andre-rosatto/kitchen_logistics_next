@@ -7,22 +7,24 @@ export default async function handler(
 	res: NextApiResponse,
 ) {
 	const ingredientId = req.query['ingredientId'];
-	if (!ingredientId) {
+	const productId = req.query['productId'];
+	if (!ingredientId || !productId) {
 		res.status(401).json({
 			ok: false,
-			error: 'ingredientId is required;'
+			error: 'ingredientId and productId are required;'
 		});
 	}
 
 	const client = new Pool({ connectionString: process.env.CONNECTION_STRING });
-	console.log('connected (delete_product_from_recipe)');
+	console.log('connected (update_product_in_recipe)');
 
 	try {
 		await client.connect();
 		await client.query(`
-			DELETE FROM recipes_products
+			UPDATE recipes_products
+			SET product_id=$2
 			WHERE id=$1;
-		`, [ingredientId]);
+		`, [ingredientId, productId]);
 		res.status(200).json({
 			ok: true,
 		});
