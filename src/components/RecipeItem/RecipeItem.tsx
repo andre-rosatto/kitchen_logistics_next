@@ -71,7 +71,7 @@ export default function RecipeItem({
 	}
 
 	const handleAddProduct = () => {
-		onProductAdd(product.id, parseInt(amount));
+		onProductAdd(product.id, parseFloat(amount));
 	}
 
 	if (!product) return null;

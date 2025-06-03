@@ -8,13 +8,14 @@ export default async function handler(
 ) {
 	const recipeId = req.query['recipeId'];
 	const productId = req.query['productId'];
-	const amount = req.query['amount'] ?? '0';
+	const amount = req.query['amount'] ?? 0;
 	if (!recipeId || !productId) {
 		res.status(401).json({
 			ok: false,
 			error: 'recipeId and productId are required;'
 		});
 	}
+
 
 	const client = new Pool({ connectionString: process.env.CONNECTION_STRING });
 	console.log('connected (add_product_to_recipe)');
