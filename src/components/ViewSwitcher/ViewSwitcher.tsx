@@ -1,4 +1,5 @@
 import { useViewContext } from "@/contexts/ViewContext";
+import Meals from "@/views/Meals";
 import Products from "@/views/Products";
 import Recipes from "@/views/Recipes";
 
@@ -7,7 +8,7 @@ export default function ViewSwitcher() {
 
 	switch (view) {
 		case 0:
-			return null;
+			return <Meals />;
 		case 1:
 			return <Recipes />;
 		case 2:

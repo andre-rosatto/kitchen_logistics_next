@@ -7,10 +7,10 @@ export type ViewContextType = {
 	setView: (idx: number) => void;
 }
 
-const ViewContext = createContext<ViewContextType>({ view: 1, setView: () => { } });
+const ViewContext = createContext<ViewContextType>({ view: 0, setView: () => { } });
 
 export default function ViewContextProvider({ children }: Readonly<{ children: React.ReactNode }>) {
-	const [view, setView] = useState<number>(1);
+	const [view, setView] = useState<number>(0);
 
 	return (
 		<ViewContext.Provider value={{ view, setView }}>
