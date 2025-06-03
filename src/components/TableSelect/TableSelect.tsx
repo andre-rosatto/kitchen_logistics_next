@@ -2,17 +2,18 @@ import styles from './TableSelect.module.css';
 import { Product } from '@/views/Products/Products';
 import { useState } from 'react';
 
-interface TableSelectProps {
+interface TableSelectProps extends React.ComponentProps<'select'> {
 	items: Product[];
-	onSelect: (id: string) => void;
+	initialValue?: string;
+	onSelectChange: (id: string) => void;
 }
 
-export default function TableSelect({ items, onSelect }: TableSelectProps) {
-	const [selectedId, setSelectedId] = useState(items[0].id);
+export default function TableSelect({ items, initialValue, onSelectChange, ...props }: TableSelectProps) {
+	const [selectedId, setSelectedId] = useState(initialValue || items[0].id);
 
 	const handleOnChange = (e: React.SyntheticEvent<HTMLSelectElement>) => {
 		if (e.currentTarget.value !== selectedId) {
-			onSelect(e.currentTarget.value);
+			onSelectChange(e.currentTarget.value);
 			setSelectedId(e.currentTarget.value);
 		}
 	}
@@ -22,6 +23,7 @@ export default function TableSelect({ items, onSelect }: TableSelectProps) {
 			className={styles.container}
 			defaultValue={selectedId}
 			onChange={handleOnChange}
+			{...props}
 		>
 			{items.map(item => (
 				<option

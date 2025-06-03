@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Pool } from 'pg';
 
@@ -16,9 +15,18 @@ export default async function handler(
 			FROM recipes
 			ORDER BY name COLLATE "und-x-icu";
 		`);
-		const result = data.rows.map(product => ({
-			id: product.id,
-			name: product.name,
+		const ingredients = await client.query(`
+			SELECT product_id, recipe_id, amount
+			FROM recipes_products;
+		`);
+
+		const result = data.rows.map(recipe => ({
+			id: recipe.id,
+			name: recipe.name,
+			ingredients: ingredients.rows.filter(row => row.recipe_id === recipe.id).map(item => ({
+				productId: item.product_id,
+				amount: parseFloat(item.amount),
+			})),
 		}));
 		res.status(200).json({
 			ok: true,

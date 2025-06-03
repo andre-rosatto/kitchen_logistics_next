@@ -6,16 +6,28 @@ import IconButton from '../IconButton';
 import { Product } from '@/views/Products/Products';
 import TableSelect from '../TableSelect';
 import { strToFloat } from '@/utils/converter';
+import TableInput from '../TableInput';
 
-interface RecipeItemProps {
+interface RecipeItemProps extends React.ComponentProps<'div'> {
 	recipe: Recipe;
 	products: Product[];
 	onRecipeNameChange: (id: string, value: string) => void;
 	onRecipeDelete: (id: string) => void;
-	onAddProduct: (id: string, amount: number) => void;
+	onProductAdd: (id: string, amount: number) => void;
+	onProductDelete: (id: string) => void;
+	onProductAmountChange: (id: string, amount: number) => void;
 }
 
-export default function RecipeItem({ recipe, products, onRecipeNameChange, onRecipeDelete, onAddProduct }: RecipeItemProps) {
+export default function RecipeItem({
+	recipe,
+	products,
+	onRecipeNameChange,
+	onRecipeDelete,
+	onProductAdd,
+	onProductDelete,
+	onProductAmountChange,
+	...props
+}: RecipeItemProps) {
 	const [name, setName] = useState(recipe.name);
 	const [amount, setAmount] = useState('0');
 	const [product, setProduct] = useState<Product>(products[0]);
@@ -55,18 +67,20 @@ export default function RecipeItem({ recipe, products, onRecipeNameChange, onRec
 
 	const handleAmountBlur = () => {
 		const formattedValue = strToFloat(amount);
-		setAmount(Number.isInteger(formattedValue) ? formattedValue.toString() : formattedValue.toFixed(2));
+		setAmount(Number.isInteger(formattedValue) ? formattedValue.toString() : formattedValue.toFixed(3));
 	}
 
 	const handleAddProduct = () => {
-		onAddProduct(product.id, parseInt(amount));
+		onProductAdd(product.id, parseInt(amount));
 	}
 
 	return (
 		<div
 			className={styles.container}
 			id={`_${recipe.id}`}
+			{...props}
 		>
+			{/* header */}
 			<div className={styles.header}>
 				<div className={styles.headerInputContaier}>
 					<Image
@@ -91,13 +105,13 @@ export default function RecipeItem({ recipe, products, onRecipeNameChange, onRec
 				/>
 			</div>
 
+			{/* add bar */}
 			<div className={styles.addBar}>
 				<label className={styles.label}>
 					Produto:
-					{/* <input className={styles.input} /> */}
 					<TableSelect
 						items={products}
-						onSelect={handleProductSelect}
+						onSelectChange={handleProductSelect}
 					/>
 				</label>
 
@@ -117,6 +131,56 @@ export default function RecipeItem({ recipe, products, onRecipeNameChange, onRec
 					disabled={amount.trim().length === 0}
 					onClick={handleAddProduct}
 				/>
+			</div>
+
+			{/* ingredients */}
+			{/* table head */}
+			<div className={styles.tableHead}>
+				<span className={`${styles.tableHeadItem} ${styles.tableColumn}`}>Produto</span>
+				<span className={`${styles.tableHeadItem} ${styles.tableColumnSmall}`}>Quantidade</span>
+				<span className={`${styles.tableHeadItem} ${styles.tableColumnSmall}`}>Unidade</span>
+				<span className={`${styles.tableHeadItem} ${styles.tableColumnIcon}`}></span>
+			</div>
+
+			{/* table body */}
+			<div className={styles.table}>
+				{recipe.ingredients.map(ingredient => (
+					<div
+						key={ingredient.productId}
+						id={`_${ingredient.productId}`}
+						className={styles.tableRow}
+					>
+						{/* product name */}
+						<span className={`${styles.tableItem} ${styles.tableColumn}`}>
+							<TableSelect
+								items={products}
+								initialValue={ingredient.productId}
+								onSelectChange={() => { }}
+							/>
+						</span>
+
+						{/* product amount */}
+						<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
+							<TableInput
+								initialValue={Number.isInteger(ingredient.amount) ? ingredient.amount.toString() : ingredient.amount.toFixed(3)}
+								onChange={newValue => onProductAmountChange(ingredient.productId, parseFloat(newValue))}
+							/>
+						</span>
+
+						{/* product unit */}
+						<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
+							{product.unit}
+						</span>
+
+						{/* delete button */}
+						<span className={`${styles.tableItem} ${styles.tableColumnIcon}`}>
+							<IconButton
+								type='delete'
+								onClick={() => onProductDelete(ingredient.productId)}
+							/>
+						</span>
+					</div>
+				))}
 			</div>
 		</div>
 	);

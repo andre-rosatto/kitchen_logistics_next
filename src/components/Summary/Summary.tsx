@@ -3,12 +3,13 @@ import styles from './Summary.module.css';
 import { useViewContext } from '@/contexts/ViewContext';
 import { Product } from '@/views/Products/Products';
 import { useMemo } from 'react';
+import { Recipe } from '@/views/Recipes/Recipes';
 
-interface SummaryProps {
-	items: Product[]
+interface SummaryProps extends React.ComponentProps<'section'> {
+	items: Product[] | Recipe[],
 }
 
-export default function Summary({ items }: SummaryProps) {
+export default function Summary({ items, ...props }: SummaryProps) {
 	const { view } = useViewContext();
 	const sortedItems = useMemo(() => [...items].sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })), [items]);
 
@@ -33,7 +34,7 @@ export default function Summary({ items }: SummaryProps) {
 	const data = getData();
 
 	return (
-		<section className={styles.container}>
+		<section className={styles.container} {...props}>
 			<div className={styles.header}>
 				<Image
 					src={data.icon}

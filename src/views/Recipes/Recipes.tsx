@@ -11,9 +11,20 @@ export type Recipe = {
 	id: string;
 	name: string;
 	ingredients: {
-		product: Product,
+		productId: string,
 		amount: number,
 	}[]
+}
+
+const isRecipeArray = (obj: unknown): obj is Recipe[] => {
+	if (!obj || typeof obj !== 'object') return false;
+	return (
+		Array.isArray(obj) && obj.every(o => (
+			'id' in o && typeof o.id === 'string'
+			&& 'name' in o && typeof o.name === 'string'
+			&& 'ingredients' in o && Array.isArray(o.ingredients)
+		))
+	);
 }
 
 export default function Recipes() {
@@ -34,7 +45,9 @@ export default function Recipes() {
 		fetch('/api/recipes')
 			.then(res => res.json())
 			.then(data => {
-				console.log(data);
+				if (isRecipeArray(data.data)) {
+					setRecipes(data.data);
+				}
 				setWaiting(false);
 			});
 	}, []);
@@ -90,15 +103,55 @@ export default function Recipes() {
 			});
 	}
 
-	const handleAddProduct = (recipeId: string, productId: string, amount: number) => {
+	const handleProductAdd = (recipeId: string, productId: string, amount: number) => {
 		setWaiting(true);
 		fetch(`/api/add_product_to_recipe?recipeId=${recipeId}&productId=${productId}&amount=${amount}`)
 			.then(res => res.json())
 			.then(data => {
 				if (data.ok) {
-					console.log(data);
+					const newRecipe = { ...recipes.find(recipe => recipe.id === recipeId)! };
+					newRecipe.ingredients = [{ amount, productId }, ...newRecipe.ingredients];
+					setRecipes(recipes => recipes.map(recipe => (
+						recipe.id !== recipeId ? recipe : newRecipe
+					)));
 				} else {
 					console.log('Error adding product:', data);
+				}
+				setWaiting(false);
+			});
+	}
+
+	const handleProductDelete = (recipeId: string, productId: string) => {
+		setWaiting(true);
+		fetch(`/api/delete_product_from_recipe?recipeId=${recipeId}&productId=${productId}`)
+			.then(res => res.json())
+			.then(data => {
+				if (data.ok) {
+					const newRecipe = { ...recipes.find(recipe => recipe.id === recipeId)! };
+					newRecipe.ingredients = newRecipe.ingredients.filter(ingredient => ingredient.productId !== productId);
+					setRecipes(recipes => recipes.map(recipe => (
+						recipe.id !== recipeId ? recipe : newRecipe
+					)));
+				} else {
+					console.log('Error deleting product:', data);
+				}
+				setWaiting(false);
+			});
+	}
+
+	const handleProductAmountChange = (recipeId: string, productId: string, amount: number) => {
+		setWaiting(true);
+		fetch(`/api/update_product_amount?recipeId=${recipeId}&productId=${productId}&amount=${amount}`)
+			.then(res => res.json())
+			.then(data => {
+				if (data.ok) {
+					const newRecipe = { ...recipes.find(recipe => recipe.id === recipeId)! };
+					newRecipe.ingredients = newRecipe.ingredients.map(ingredient => ingredient.productId !== productId ? ingredient : { ...ingredient, amount });
+					setRecipes(recipes => recipes.map(recipe => (
+						recipe.id !== recipeId ? recipe : newRecipe
+					)));
+				} else {
+					console.log('Error updating product amount:', data);
 				}
 				setWaiting(false);
 			});
@@ -107,9 +160,7 @@ export default function Recipes() {
 	return (
 		<main className={styles.container}>
 			{/* Summary */}
-			<Summary
-				items={[]}
-			/>
+			<Summary items={recipes} />
 
 			<div className={styles.listContainer}>
 				{/* header */}
@@ -140,7 +191,9 @@ export default function Recipes() {
 							products={products}
 							onRecipeNameChange={handleRecipeNameChange}
 							onRecipeDelete={handleRecipeDelete}
-							onAddProduct={(id, amount) => handleAddProduct(recipe.id, id, amount)}
+							onProductAdd={(id, amount) => handleProductAdd(recipe.id, id, amount)}
+							onProductDelete={productId => handleProductDelete(recipe.id, productId)}
+							onProductAmountChange={(id, amount) => handleProductAmountChange(recipe.id, id, amount)}
 						/>
 					))}
 				</div>

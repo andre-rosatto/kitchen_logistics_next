@@ -74,6 +74,9 @@ export default function Home() {
 		}
 	}
 
+	console.log('view:', view);
+
+
 	return (
 		<>
 			<Head>
