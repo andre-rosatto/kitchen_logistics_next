@@ -74,6 +74,8 @@ export default function RecipeItem({
 		onProductAdd(product.id, parseInt(amount));
 	}
 
+	if (!product) return null;
+
 	return (
 		<div
 			className={styles.container}
