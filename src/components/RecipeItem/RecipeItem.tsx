@@ -171,7 +171,7 @@ export default function RecipeItem({
 
 						{/* product unit */}
 						<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
-							{product.unit}
+							{products.find(p => p.id === ingredient.productId)!.unit}
 						</span>
 
 						{/* delete button */}

@@ -18,6 +18,10 @@
   flex-direction: column;
 }
 
+.recipesContainer {
+  overflow-y: auto;
+}
+
 .addBar {
   background-color: var(--accentPrimary);
   padding: 0.5rem 1rem;
