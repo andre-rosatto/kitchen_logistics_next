@@ -69,7 +69,10 @@ export default function RecipeItem({
 
 	const handleAmountBlur = () => {
 		const formattedValue = strToFloat(amount);
-		setAmount(Number.isInteger(formattedValue) ? formattedValue.toString() : formattedValue.toFixed(3));
+		setAmount(Intl.NumberFormat('pt-BR', {
+			minimumFractionDigits: 0,
+			maximumFractionDigits: 3,
+		}).format(formattedValue));
 	}
 
 	const handleAddProduct = () => {
@@ -166,7 +169,10 @@ export default function RecipeItem({
 						{/* product amount */}
 						<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
 							<TableInput
-								initialValue={Number.isInteger(ingredient.amount) ? ingredient.amount.toString() : ingredient.amount.toFixed(3)}
+								initialValue={Intl.NumberFormat('pt-BR', {
+									minimumFractionDigits: 0,
+									maximumFractionDigits: 3,
+								}).format(ingredient.amount)}
 								onChange={newValue => onProductAmountChange(ingredient.ingredientId, parseFloat(newValue))}
 							/>
 						</span>
