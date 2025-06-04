@@ -1,0 +1,72 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: hidden;
+  box-sizing: border-box;
+  border-radius: var(--headerRadius);
+  border: 1px solid var(--primary);
+}
+
+.header {
+  background-color: var(--primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.day {
+  font-size: 1rem;
+}
+
+.mealTypeContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--accentPrimary);
+  width: 100%;
+  padding: 0.25rem;
+  box-sizing: border-box;
+  gap: 0.25rem;
+}
+
+.mealType {
+  font-size: 1rem;
+  width: 100%;
+  margin: 0;
+  padding-left: 1.4rem;
+}
+
+.mealIcon {
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-size: 1.25rem;
+}
+
+.lunch {
+  background-image: url('/assets/sun_icon.svg');
+}
+
+.dinner {
+  background-image: url('/assets/moon_icon.svg');
+}
+
+.iconButton {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.tableRow {
+  background-color: var(--table);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+}
+
+.tableRow:nth-child(even) {
+  background-color: var(--tableEven);
+}

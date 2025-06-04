@@ -1,21 +1,19 @@
 import Image from 'next/image';
 import styles from './IconButton.module.css';
 
-interface AddButtonProps {
-	type: 'add' | 'delete'
-	disabled?: boolean;
-	onClick: () => void;
+interface AddButtonProps extends React.ComponentProps<'button'> {
+	buttonType: 'add' | 'delete';
+	className?: string;
 }
 
-export default function IconButton({ type, disabled = false, onClick }: AddButtonProps) {
+export default function IconButton({ buttonType, className = '', ...props }: AddButtonProps) {
 	return (
 		<button
-			className={`${styles.container} ${type === 'add' ? styles.add : styles.delete}`}
-			disabled={disabled}
-			onClick={onClick}
+			className={`${styles.container} ${className} ${buttonType === 'add' ? styles.add : styles.delete}`}
+			{...props}
 		>
 			<Image
-				src={type === 'add' ? '/assets/add_icon.svg' : '/assets/delete_icon.svg'}
+				src={buttonType === 'add' ? '/assets/add_icon.svg' : '/assets/delete_icon.svg'}
 				alt='Novo item'
 				title='Novo item'
 				width={100}

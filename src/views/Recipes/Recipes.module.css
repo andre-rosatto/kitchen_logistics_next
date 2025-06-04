@@ -44,3 +44,8 @@
   border: 1px solid var(--onPrimary);
   box-sizing: border-box;
 }
+
+.iconButton {
+  width: 2rem;
+  height: 2rem;
+}

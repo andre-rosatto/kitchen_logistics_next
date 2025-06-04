@@ -1,10 +1,9 @@
 .container {
   border: 1px solid var(--onPrimary);
   border-radius: var(--inputRadius);
-  width: 2rem;
-  height: 2rem;
   cursor: pointer;
   padding: 0.25rem;
+  flex-shrink: 0;
 }
 
 .container:disabled {

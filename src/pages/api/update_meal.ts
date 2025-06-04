@@ -6,12 +6,12 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
-	const day = req.query['day'];
-	const amount = req.query['amount'];
-	if (!day || !amount) {
+	const id = req.query['id'];
+	const recipeId = req.query['recipeId'];
+	if (!id || !recipeId) {
 		res.status(401).json({
 			ok: false,
-			error: 'day and amount are required;'
+			error: 'id, recipeId are required.'
 		});
 	}
 
@@ -21,10 +21,11 @@ export default async function handler(
 	try {
 		await client.connect();
 		await client.query(`
-			UPDATE meals
-			SET amount=$2
-			WHERE day=$1;
-		`, [day, amount]);
+			UPDATE meals_recipes
+			SET
+				recipe_id=$2
+			WHERE id=$1;
+		`, [id, recipeId]);
 		res.status(200).json({
 			ok: true,
 		});

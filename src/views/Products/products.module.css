@@ -46,6 +46,11 @@
   width: 4rem;
 }
 
+.iconButton {
+  width: 2rem;
+  height: 2rem;
+}
+
 .tableHead {
   background-color: var(--primary);
   display: flex;

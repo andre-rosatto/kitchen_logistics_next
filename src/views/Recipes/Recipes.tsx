@@ -4,29 +4,9 @@ import WaitOverlay from '@/components/WaitOverlay';
 import Summary from '@/components/Summary';
 import ListHeader from '@/components/ListHeader';
 import IconButton from '@/components/IconButton';
-import { Product } from '../Products/Products';
 import RecipeItem from '@/components/RecipeItem';
-
-export type Recipe = {
-	id: string;
-	name: string;
-	ingredients: {
-		ingredientId: string,
-		productId: string,
-		amount: number,
-	}[]
-}
-
-const isRecipeArray = (obj: unknown): obj is Recipe[] => {
-	if (!obj || typeof obj !== 'object') return false;
-	return (
-		Array.isArray(obj) && obj.every(o => (
-			'id' in o && typeof o.id === 'string'
-			&& 'name' in o && typeof o.name === 'string'
-			&& 'ingredients' in o && Array.isArray(o.ingredients)
-		))
-	);
-}
+import { isRecipeArray, Recipe } from '@/typings/Recipe';
+import { Product } from '@/typings/Product';
 
 export default function Recipes() {
 	const [newRecipe, setNewRecipe] = useState('');
@@ -198,7 +178,8 @@ export default function Recipes() {
 						/>
 					</label>
 					<IconButton
-						type='add'
+						className={styles.iconButton}
+						buttonType='add'
 						onClick={handleAddRecipe}
 						disabled={newRecipe.trim() === ''}
 					/>

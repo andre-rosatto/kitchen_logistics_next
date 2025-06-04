@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Pool } from 'pg';
 
@@ -11,14 +10,24 @@ export default async function handler(
 
 	try {
 		await client.connect();
-		const data = await client.query(`
+		const meals = await client.query(`
 			SELECT id, amount, day
-			FROM meals;
+			FROM meals
+			ORDER BY day;
 		`);
-		const result = data.rows.map(meal => ({
+		const recipes = await client.query(`
+			SELECT id, meal_id, recipe_id, is_lunch
+			FROM meals_recipes;
+		`);
+		const result = meals.rows.map(meal => ({
 			id: meal.id,
 			amount: meal.amount,
 			day: meal.day,
+			recipes: recipes.rows.filter(recipe => recipe.meal_id === meal.id).map(recipe => ({
+				id: recipe.id,
+				recipeId: recipe.recipe_id,
+				isLunch: recipe.is_lunch,
+			})),
 		}));
 		res.status(200).json({
 			ok: true,

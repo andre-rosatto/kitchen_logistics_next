@@ -5,26 +5,30 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
-	const name = req.query['name'];
-	const unit = req.query['unit'];
-	const x1000 = req.query['x1000'] ?? '';
-	if (!name || !unit) {
+	const recipeId = req.query['recipeId'];
+	const mealId = req.query['mealId'];
+	const isLunch = req.query['isLunch'];
+	console.log(recipeId);
+	console.log(mealId);
+	console.log(isLunch);
+
+	if (!recipeId || !mealId) {
 		res.status(401).json({
 			ok: false,
-			error: 'name and unit are required;'
+			error: 'recipeId, mealId and isLunch are required.'
 		});
 	}
 
 	const client = new Pool({ connectionString: process.env.CONNECTION_STRING });
-	console.log('connected (add_product)');
+	console.log('connected (add_meal)');
 
 	try {
 		await client.connect();
 		const data = await client.query(`
-			INSERT INTO products (name, unit, x1000)
+			INSERT INTO meals_recipes (recipe_id, meal_id, is_lunch)
 			VALUES ($1, $2, $3)
-			RETURNING id, name, unit, x1000;
-		`, [name, unit, x1000]);
+			RETURNING id, recipe_id;
+		`, [recipeId, mealId, isLunch]);
 		res.status(200).json({
 			ok: true,
 			data: data.rows[0],

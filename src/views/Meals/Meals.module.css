@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.25rem;
+  overflow-y: hidden;
+  padding-top: 4rem;
+  box-sizing: border-box;
+}
+
+.daysContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1px;
+}

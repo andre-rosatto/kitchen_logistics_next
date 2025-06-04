@@ -53,6 +53,11 @@
   gap: 1rem;
 }
 
+.iconButton {
+  width: 2rem;
+  height: 2rem;
+}
+
 .label {
   display: flex;
   align-items: center;

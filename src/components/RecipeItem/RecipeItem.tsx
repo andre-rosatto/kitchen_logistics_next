@@ -107,7 +107,8 @@ export default function RecipeItem({
 					/>
 				</div>
 				<IconButton
-					type='delete'
+					className={styles.iconButton}
+					buttonType='delete'
 					onClick={handleDeleteRecipe}
 				/>
 			</div>
@@ -134,7 +135,8 @@ export default function RecipeItem({
 				</label>
 
 				<IconButton
-					type='add'
+					className={styles.iconButton}
+					buttonType='add'
 					disabled={amount.trim().length === 0}
 					onClick={handleAddProduct}
 				/>
@@ -185,7 +187,8 @@ export default function RecipeItem({
 						{/* delete button */}
 						<span className={`${styles.tableItem} ${styles.tableColumnIcon}`}>
 							<IconButton
-								type='delete'
+								className={styles.iconButton}
+								buttonType='delete'
 								onClick={() => onProductDelete(ingredient.ingredientId)}
 							/>
 						</span>
