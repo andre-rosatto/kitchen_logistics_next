@@ -1,12 +1,12 @@
-import { Recipe } from '@/views/Recipes/Recipes';
 import styles from './RecipeItem.module.css';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import IconButton from '../IconButton';
-import { Product } from '@/views/Products/Products';
 import TableSelect from '../TableSelect';
 import { strToFloat } from '@/utils/converter';
 import TableInput from '../TableInput';
+import { Recipe } from '@/typings/Recipe';
+import { Product } from '@/typings/Product';
 
 interface RecipeItemProps extends React.ComponentProps<'div'> {
 	recipe: Recipe;
@@ -175,7 +175,7 @@ export default function RecipeItem({
 									minimumFractionDigits: 0,
 									maximumFractionDigits: 3,
 								}).format(ingredient.amount)}
-								onChange={newValue => onProductAmountChange(ingredient.ingredientId, parseFloat(newValue))}
+								onInputChange={newValue => onProductAmountChange(ingredient.ingredientId, parseFloat(newValue))}
 							/>
 						</span>
 

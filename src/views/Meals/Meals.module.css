@@ -6,11 +6,17 @@
   overflow-y: hidden;
   padding-top: 4rem;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .daysContainer {
   display: flex;
-  flex-direction: row;
   align-items: flex-start;
   gap: 1px;
+}
+
+.dayContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }

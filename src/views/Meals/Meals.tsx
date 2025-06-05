@@ -5,6 +5,7 @@ import MealsItem from '@/components/MealsItem';
 import { isMealArray, Meal } from '@/typings/Meals';
 import { isRecipeArray, Recipe } from '@/typings/Recipe';
 import { isProductArray, Product } from '@/typings/Product';
+import ProductsSummary from '@/components/ProductsSummary';
 
 export default function Meals() {
 	const [waiting, setWaiting] = useState(false);
@@ -13,35 +14,52 @@ export default function Meals() {
 	const [products, setProducts] = useState<Product[]>([]);
 
 	useEffect(() => {
+		const controller = new AbortController();
 		setWaiting(true);
-		fetch(`/api/meals`)
-			.then(res => res.json())
-			.then(data => {
-				if (data.ok && isMealArray(data.data)) {
-					setMeals(data.data);
-				} else {
-					console.log('Error fetching meals:', data);
-				}
-				setWaiting(false);
-			});
-		fetch(`/api/recipes`)
-			.then(res => res.json())
-			.then(data => {
-				if (data.ok && isRecipeArray(data.data)) {
-					setRecipes(data.data);
-				} else {
-					console.log('Error fetching recipes:', data);
-				}
-			});
-		fetch(`/api/products`)
-			.then(res => res.json())
-			.then(data => {
-				if (data.ok && isProductArray(data.data)) {
-					setProducts(data.data);
-				} else {
-					console.log('Error fetching products:', data);
-				}
-			});
+		const fetchData = async () => {
+			const [mealsData, recipesData, productsData] = await Promise.all([
+				// fetch meals
+				fetch(`/api/meals`)
+					.then(res => res.json())
+					.then(data => {
+						if (data.ok && isMealArray(data.data)) {
+							return data.data;
+						} else {
+							console.log('Error fetching meals:', data);
+						}
+					}),
+
+				// fetch recipes
+				fetch(`/api/recipes`)
+					.then(res => res.json())
+					.then(data => {
+						if (data.ok && isRecipeArray(data.data)) {
+							return data.data;
+						} else {
+							console.log('Error fetching recipes:', data);
+						}
+					}),
+
+				// fetch products
+				fetch(`/api/products`)
+					.then(res => res.json())
+					.then(data => {
+						if (data.ok && isProductArray(data.data)) {
+							return data.data;
+						} else {
+							console.log('Error fetching products:', data);
+						}
+					}),
+			]);
+
+			setMeals(mealsData);
+			setRecipes(recipesData);
+			setProducts(productsData);
+			setWaiting(false);
+		}
+
+		fetchData();
+		return () => controller.abort();
 	}, []);
 
 	const handleAddMeal = (meal: Meal, isLunch: boolean) => {
@@ -94,18 +112,44 @@ export default function Meals() {
 			});
 	}
 
+	const handleAmountChange = (meal: Meal, amount: number) => {
+		setWaiting(true);
+		fetch(`/api/update_meal_amount?id=${meal.id}&amount=${amount}`)
+			.then(res => res.json())
+			.then(data => {
+				if (data.ok) {
+					setMeals(meals => meals.map(m => m.id !== meal.id ? m : { ...m, amount }));
+				} else {
+					console.log('Error updating meal:', data);
+				}
+				setWaiting(false);
+			});
+	}
+
 	return (
 		<main className={styles.container}>
 			<div className={styles.daysContainer}>
 				{meals.map(meal => (
-					<MealsItem
+					<div
 						key={meal.id}
-						meal={meal}
-						recipes={recipes}
-						onAddMeal={isLunch => handleAddMeal(meal, isLunch)}
-						onDeleteMeal={id => handleDeleteMeal(meal, id)}
-						onChangeMeal={(id, recipeId) => handleChangeMeal(meal, id, recipeId)}
-					/>
+						className={styles.dayContainer}
+					>
+						<MealsItem
+							key={meal.id}
+							meal={meal}
+							recipes={recipes}
+							onAddMeal={isLunch => handleAddMeal(meal, isLunch)}
+							onDeleteMeal={id => handleDeleteMeal(meal, id)}
+							onChangeMeal={(id, recipeId) => handleChangeMeal(meal, id, recipeId)}
+						/>
+						<ProductsSummary
+							initialAmount={meal.amount}
+							products={products}
+							recipes={recipes}
+							mealRecipes={meal.recipes}
+							onAmountChange={value => handleAmountChange(meal, value)}
+						/>
+					</div>
 				))}
 			</div>
 

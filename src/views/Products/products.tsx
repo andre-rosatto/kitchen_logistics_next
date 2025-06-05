@@ -15,6 +15,7 @@ export default function Products() {
 	const [waiting, setWaiting] = useState(true);
 
 	useEffect(() => {
+		const controller = new AbortController();
 		setWaiting(true);
 
 		// fetch all products
@@ -28,6 +29,8 @@ export default function Products() {
 				}
 				setWaiting(false);
 			});
+
+		return () => controller.abort();
 	}, []);
 
 	const handleNewProductChange = (field: ProductField, value: string) => {
@@ -190,20 +193,20 @@ export default function Products() {
 								<TableInput
 									initialValue={product.name}
 									allowEmpty={false}
-									onChange={value => handleProductChange(product.id, 'name', value)}
+									onInputChange={value => handleProductChange(product.id, 'name', value)}
 								/>
 							</span>
 							<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
 								<TableInput
 									initialValue={product.unit}
 									allowEmpty={false}
-									onChange={value => handleProductChange(product.id, 'unit', value)}
+									onInputChange={value => handleProductChange(product.id, 'unit', value)}
 								/>
 							</span>
 							<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
 								<TableInput
 									initialValue={product.x1000}
-									onChange={value => handleProductChange(product.id, 'x1000', value)}
+									onInputChange={value => handleProductChange(product.id, 'x1000', value)}
 								/>
 							</span>
 							<span className={`${styles.tableItem} ${styles.tableColumnIcon}`}>

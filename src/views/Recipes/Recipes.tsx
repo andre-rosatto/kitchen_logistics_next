@@ -15,22 +15,38 @@ export default function Recipes() {
 	const [waiting, setWaiting] = useState(false);
 
 	useEffect(() => {
+		const controller = new AbortController();
 		setWaiting(true);
-		fetch('/api/products')
-			.then(res => res.json())
-			.then(data => {
-				if (data.ok) {
-					setProducts(data.data);
-				}
-			});
-		fetch('/api/recipes')
-			.then(res => res.json())
-			.then(data => {
-				if (isRecipeArray(data.data)) {
-					setRecipes(data.data);
-				}
-				setWaiting(false);
-			});
+
+		const fetchData = async () => {
+			const [productsData, recipesData] = await Promise.all([
+				// fetch products
+				fetch('/api/products')
+					.then(res => res.json())
+					.then(data => {
+						if (data.ok) {
+							return data.data;
+						}
+					}),
+
+				// fetch recipes
+				fetch('/api/recipes')
+					.then(res => res.json())
+					.then(data => {
+						if (isRecipeArray(data.data)) {
+							return data.data;
+						}
+						setWaiting(false);
+					}),
+			]);
+
+			setProducts(productsData);
+			setRecipes(recipesData);
+			setWaiting(false);
+		}
+
+		fetchData();
+		return () => controller.abort();
 	}, []);
 
 	const handleAddRecipe = () => {

@@ -1,14 +1,14 @@
 import styles from './TableInput.module.css';
 import { useEffect, useState } from 'react';
 
-interface TableInputProps {
+interface TableInputProps extends React.ComponentProps<'input'> {
 	className?: string;
 	allowEmpty?: boolean;
 	initialValue: string;
-	onChange: (newValue: string) => void;
+	onInputChange: (newValue: string) => void;
 }
 
-export default function TableInput({ className = '', allowEmpty = true, initialValue, onChange }: TableInputProps) {
+export default function TableInput({ className = '', allowEmpty = true, initialValue, onInputChange, ...props }: TableInputProps) {
 	const [value, setValue] = useState(initialValue);
 
 	useEffect(() => {
@@ -19,7 +19,7 @@ export default function TableInput({ className = '', allowEmpty = true, initialV
 		if (value.trim() === '' && !allowEmpty) {
 			setValue(initialValue);
 		} else if (value !== initialValue) {
-			onChange(value);
+			onInputChange(value);
 		}
 	}
 
@@ -29,6 +29,7 @@ export default function TableInput({ className = '', allowEmpty = true, initialV
 			value={value}
 			onChange={e => setValue(e.currentTarget.value)}
 			onBlur={handleBlur}
+			{...props}
 		/>
 	)
 }

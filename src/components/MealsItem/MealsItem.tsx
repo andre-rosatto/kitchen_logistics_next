@@ -54,7 +54,7 @@ export default function MealsItem({ meal, recipes, onAddMeal, onDeleteMeal, onCh
 			</div>
 
 			{/* lunch meals */}
-			<div className={styles.table}>
+			<div>
 				{meal.recipes.filter(recipe => recipe.isLunch).map(recipe => (
 					<div
 						key={recipe.id}
@@ -76,7 +76,7 @@ export default function MealsItem({ meal, recipes, onAddMeal, onDeleteMeal, onCh
 
 			{/* dinner */}
 			<div className={styles.mealTypeContainer}>
-				<h3 className={`${styles.mealType} ${styles.mealIcon} ${styles.lunch}`}>Jantar</h3>
+				<h3 className={`${styles.mealType} ${styles.mealIcon} ${styles.dinner}`}>Jantar</h3>
 				<IconButton
 					buttonType='add'
 					className={styles.iconButton}
@@ -85,7 +85,7 @@ export default function MealsItem({ meal, recipes, onAddMeal, onDeleteMeal, onCh
 			</div>
 
 			{/* dinner meals */}
-			<div className={styles.table}>
+			<div>
 				{meal.recipes.filter(recipe => !recipe.isLunch).map(recipe => (
 					<div
 						key={recipe.id}

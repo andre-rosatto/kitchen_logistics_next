@@ -1,0 +1,67 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--headerRadius);
+  border: 1px solid var(--primary);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem;
+  align-items: center;
+  background-color: var(--primary);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.headerText {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+}
+
+.input {
+  width: 2rem;
+  border-color: black !important;
+  background-color: white !important;
+  color: black !important;
+  padding: 0 0.25rem !important;
+}
+
+.table {
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tableRow {
+  background-color: var(--table);
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.tableRow:nth-child(even) {
+  background-color: var(--tableEven);
+}
+
+.tableItem {
+  color: white;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+.tableItemAmount {
+  white-space: nowrap;
+}
