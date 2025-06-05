@@ -1,14 +1,15 @@
-import styles from './TableSelect.module.css';
-import { Product } from '@/views/Products/Products';
+import { Product } from '@/typings/Product';
+import { Recipe } from '@/typings/Recipe';
 import { useState } from 'react';
 
 interface TableSelectProps extends React.ComponentProps<'select'> {
-	items: Product[];
+	items: Product[] | Recipe[];
 	initialValue?: string;
+	className?: string;
 	onSelectChange: (id: string) => void;
 }
 
-export default function TableSelect({ items, initialValue, onSelectChange, ...props }: TableSelectProps) {
+export default function SmartSelect({ items, initialValue, className = '', onSelectChange, ...props }: TableSelectProps) {
 	const [selectedId, setSelectedId] = useState(initialValue || items[0].id);
 
 	const handleOnChange = (e: React.SyntheticEvent<HTMLSelectElement>) => {
@@ -20,7 +21,7 @@ export default function TableSelect({ items, initialValue, onSelectChange, ...pr
 
 	return (
 		<select
-			className={styles.container}
+			className={className}
 			defaultValue={selectedId}
 			onChange={handleOnChange}
 			{...props}

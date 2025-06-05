@@ -2,7 +2,7 @@ import styles from './RecipeItem.module.css';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import IconButton from '../IconButton';
-import TableSelect from '../TableSelect';
+import SmartSelect from '../SmartSelect';
 import { strToFloat } from '@/utils/converter';
 import SmartInput from '../SmartInput';
 import { Recipe } from '@/typings/Recipe';
@@ -112,7 +112,7 @@ export default function RecipeItem({
 			<div className={styles.addBar}>
 				<label className={styles.label}>
 					Produto:
-					<TableSelect
+					<SmartSelect
 						items={products}
 						onSelectChange={handleProductSelect}
 					/>
@@ -157,7 +157,7 @@ export default function RecipeItem({
 					>
 						{/* product name */}
 						<span className={`${styles.tableItem} ${styles.tableColumn}`}>
-							<TableSelect
+							<SmartSelect
 								items={products}
 								initialValue={ingredient.productId}
 								onSelectChange={id => onProductChange(ingredient.ingredientId, id)}

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import IconButton from '../IconButton';
 import { Meal } from '@/typings/Meals';
 import { Recipe } from '@/typings/Recipe';
-import TableSelect from '../TableSelect';
+import SmartSelect from '../SmartSelect';
 
 interface MealsItemProps extends React.ComponentProps<'div'> {
 	meal: Meal;
@@ -43,67 +43,45 @@ export default function MealsItem({ meal, recipes, onAddMeal, onDeleteMeal, onCh
 				<h2 className={styles.day}>{DAYS[meal.day].name}</h2>
 			</div>
 
-			{/* lunch */}
-			<div className={styles.mealTypeContainer}>
-				<h3 className={`${styles.mealType} ${styles.mealIcon} ${styles.lunch}`}>Almoço</h3>
-				<IconButton
-					buttonType='add'
-					className={styles.iconButton}
-					onClick={() => onAddMeal(true)}
-				/>
-			</div>
-
-			{/* lunch meals */}
-			<div>
-				{meal.recipes.filter(recipe => recipe.isLunch).map(recipe => (
-					<div
-						key={recipe.id}
-						className={styles.tableRow}
-					>
-						<TableSelect
-							items={recipes}
-							initialValue={recipe.recipeId}
-							onSelectChange={id => onChangeMeal(recipe.id, id)}
-						/>
+			{/* meals */}
+			{['Almoço', 'Jantar'].map(mealName => (
+				<div
+					key={mealName}
+					className={styles.mealContainer}
+				>
+					{/* header */}
+					<div className={styles.mealTypeContainer}>
+						<h3 className={`${styles.mealType} ${styles.mealIcon} ${styles.lunch}`}>{mealName}</h3>
 						<IconButton
-							buttonType='delete'
+							buttonType='add'
 							className={styles.iconButton}
-							onClick={() => onDeleteMeal(recipe.id)}
+							onClick={() => onAddMeal(mealName === 'Almoço')}
 						/>
 					</div>
-				))}
-			</div>
 
-			{/* dinner */}
-			<div className={styles.mealTypeContainer}>
-				<h3 className={`${styles.mealType} ${styles.mealIcon} ${styles.dinner}`}>Jantar</h3>
-				<IconButton
-					buttonType='add'
-					className={styles.iconButton}
-					onClick={() => onAddMeal(false)}
-				/>
-			</div>
-
-			{/* dinner meals */}
-			<div>
-				{meal.recipes.filter(recipe => !recipe.isLunch).map(recipe => (
-					<div
-						key={recipe.id}
-						className={styles.tableRow}
-					>
-						<TableSelect
-							items={recipes}
-							initialValue={recipe.recipeId}
-							onSelectChange={id => onChangeMeal(recipe.id, id)}
-						/>
-						<IconButton
-							buttonType='delete'
-							className={styles.iconButton}
-							onClick={() => onDeleteMeal(recipe.id)}
-						/>
+					{/* list */}
+					<div>
+						{meal.recipes.filter(recipe => mealName === 'Almoço' ? recipe.isLunch : !recipe.isLunch).map(recipe => (
+							<div
+								key={recipe.id}
+								className={styles.tableRow}
+							>
+								<SmartSelect
+									className={styles.select}
+									items={recipes}
+									initialValue={recipe.recipeId}
+									onSelectChange={id => onChangeMeal(recipe.id, id)}
+								/>
+								<IconButton
+									buttonType='delete'
+									className={styles.iconButton}
+									onClick={() => onDeleteMeal(recipe.id)}
+								/>
+							</div>
+						))}
 					</div>
-				))}
-			</div>
+				</div>
+			))}
 		</div>
 	);
 }
