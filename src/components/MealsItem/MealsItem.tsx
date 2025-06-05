@@ -37,8 +37,8 @@ export default function MealsItem({ meal, recipes, onAddMeal, onDeleteMeal, onCh
 					src={DAYS[meal.day].icon}
 					alt={DAYS[meal.day].name}
 					title={DAYS[meal.day].name}
-					width={30}
-					height={30}
+					width={25}
+					height={25}
 				/>
 				<h2 className={styles.day}>{DAYS[meal.day].name}</h2>
 			</div>
