@@ -5,6 +5,8 @@
   border: 1px solid var(--primary);
   border-radius: var(--headerRadius);
   box-sizing: border-box;
+  max-height: 25%;
+  overflow-y: hidden;
 }
 
 .header {
@@ -18,19 +20,21 @@
 .table {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  overflow-y: auto;
 }
 
 .tableRow {
   background-color: var(--table);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 2rem;
-  border-right: 1px solid var(--primary);
-  border-bottom: 1px solid var(--primary);
+  border-right: 1px solid var(--accentPrimary);
+  border-bottom: 1px solid var(--accentPrimary);
 }
 
 .tableItem {
-  color: white;
+  color: var(--onBackground);
   padding: 0.25rem 0.5rem;
   font-size: 0.8rem;
 }

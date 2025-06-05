@@ -156,7 +156,11 @@ export default function Meals() {
 			</div>
 
 			{/* week summary */}
-			<WeekSummary />
+			<WeekSummary
+				meals={meals}
+				recipes={recipes}
+				products={products}
+			/>
 
 			{/* wait overlay */}
 			{waiting && <WaitOverlay />}
