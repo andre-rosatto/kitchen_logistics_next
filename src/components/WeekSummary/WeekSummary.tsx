@@ -42,7 +42,13 @@ export default function WeekSummary({ meals, recipes, products, ...props }: Week
 			{...props}
 		>
 			{/* header */}
-			<h3 className={styles.header}>Total de Produtos da Semana</h3>
+			<div className={styles.header}>
+				<h3 className={styles.headerTitle}>Total de Produtos da Semana</h3>
+				<div className={styles.buttonsContainer}>
+					<button className={styles.button}>Imprimir</button>
+					<button className={styles.button}>Copiar</button>
+				</div>
+			</div>
 
 			{/* table */}
 			<div className={styles.table}>
