@@ -17,6 +17,7 @@
   align-items: flex-start;
   gap: 1px;
   max-width: 100%;
+  min-width: 100dvw;
   height: 100%;
   overflow: auto;
 }
