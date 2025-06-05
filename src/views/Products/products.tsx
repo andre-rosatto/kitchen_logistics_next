@@ -191,6 +191,7 @@ export default function Products() {
 						>
 							<span className={`${styles.tableItem} ${styles.tableColumn}`}>
 								<SmartInput
+									className={styles.tableInput}
 									initialValue={product.name}
 									allowEmpty={false}
 									onInputChange={value => handleProductChange(product.id, 'name', value)}
@@ -198,6 +199,7 @@ export default function Products() {
 							</span>
 							<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
 								<SmartInput
+									className={styles.tableInput}
 									initialValue={product.unit}
 									allowEmpty={false}
 									onInputChange={value => handleProductChange(product.id, 'unit', value)}
@@ -205,6 +207,7 @@ export default function Products() {
 							</span>
 							<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
 								<SmartInput
+									className={styles.tableInput}
 									initialValue={product.x1000}
 									onInputChange={value => handleProductChange(product.id, 'x1000', value)}
 								/>

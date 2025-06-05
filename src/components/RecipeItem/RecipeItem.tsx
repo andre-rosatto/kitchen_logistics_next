@@ -113,6 +113,7 @@ export default function RecipeItem({
 				<label className={styles.label}>
 					Produto:
 					<SmartSelect
+						className={styles.select}
 						items={products}
 						onSelectChange={handleProductSelect}
 					/>
@@ -158,6 +159,7 @@ export default function RecipeItem({
 						{/* product name */}
 						<span className={`${styles.tableItem} ${styles.tableColumn}`}>
 							<SmartSelect
+								className={styles.select}
 								items={products}
 								initialValue={ingredient.productId}
 								onSelectChange={id => onProductChange(ingredient.ingredientId, id)}

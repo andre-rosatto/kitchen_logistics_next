@@ -51,7 +51,7 @@ export default function MealsItem({ meal, recipes, onAddMeal, onDeleteMeal, onCh
 				>
 					{/* header */}
 					<div className={styles.mealTypeContainer}>
-						<h3 className={`${styles.mealType} ${styles.mealIcon} ${styles.lunch}`}>{mealName}</h3>
+						<h3 className={`${styles.mealType} ${styles.mealIcon} ${mealName === 'Almoço' ? styles.lunch : styles.dinner}`}>{mealName}</h3>
 						<IconButton
 							buttonType='add'
 							className={styles.iconButton}
