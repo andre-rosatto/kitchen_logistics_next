@@ -6,6 +6,7 @@ import { isMealArray, Meal } from '@/typings/Meals';
 import { isRecipeArray, Recipe } from '@/typings/Recipe';
 import { isProductArray, Product } from '@/typings/Product';
 import ProductsSummary from '@/components/ProductsSummary';
+import WeekSummary from '@/components/WeekSummary';
 
 export default function Meals() {
 	const [waiting, setWaiting] = useState(false);
@@ -128,6 +129,7 @@ export default function Meals() {
 
 	return (
 		<main className={styles.container}>
+			{/* days */}
 			<div className={styles.daysContainer}>
 				{meals.map(meal => (
 					<div
@@ -152,6 +154,9 @@ export default function Meals() {
 					</div>
 				))}
 			</div>
+
+			{/* week summary */}
+			<WeekSummary />
 
 			{/* wait overlay */}
 			{waiting && <WaitOverlay />}
