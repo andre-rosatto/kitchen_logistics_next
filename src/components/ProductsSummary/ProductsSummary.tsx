@@ -1,6 +1,6 @@
 import { Product } from '@/typings/Product';
 import styles from './ProductsSummary.module.css';
-import TableInput from '../TableInput';
+import SmartInput from '../SmartInput';
 import { useEffect, useMemo, useState } from 'react';
 import { Meal } from '@/typings/Meals';
 import { Recipe } from '@/typings/Recipe';
@@ -85,7 +85,7 @@ export default function ProductsSummary({ initialAmount, mealRecipes, recipes, p
 				<h3 className={styles.headerText}>Produtos</h3>
 				<label className={styles.label}>
 					Quant.:
-					<TableInput
+					<SmartInput
 						className={styles.input}
 						initialValue={Intl.NumberFormat('pt-BR', {
 							minimumFractionDigits: 0,
@@ -93,7 +93,7 @@ export default function ProductsSummary({ initialAmount, mealRecipes, recipes, p
 						}).format(amount)}
 						onInputChange={handleAmountChange}
 						allowEmpty={false}
-						type='tel'
+						allowedChars='0123456789'
 					/>
 				</label>
 			</div>

@@ -84,7 +84,7 @@
 }
 
 .tableItem {
-  color: white;
+  color: var(--onBackground);
   padding: 0.25rem 0.5rem;
 }
 
@@ -98,4 +98,16 @@
 
 .tableColumnIcon {
   width: 2rem;
+}
+
+.tableInput {
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--onBackground);
+  padding: 0.25rem;
+  width: 100%;
+}
+
+.tableInput:active {
+  border: 1px solid var(--onBackground);
 }

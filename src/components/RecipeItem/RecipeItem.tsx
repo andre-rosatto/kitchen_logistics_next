@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import IconButton from '../IconButton';
 import TableSelect from '../TableSelect';
 import { strToFloat } from '@/utils/converter';
-import TableInput from '../TableInput';
+import SmartInput from '../SmartInput';
 import { Recipe } from '@/typings/Recipe';
 import { Product } from '@/typings/Product';
 
@@ -61,22 +61,17 @@ export default function RecipeItem({
 		}
 	}
 
-	const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		let formattedValue = e.currentTarget.value.trim();
-		formattedValue = formattedValue.replace(/[^(0-9).,]+/g, '');
-		setAmount(formattedValue);
-	}
-
-	const handleAmountBlur = () => {
-		const formattedValue = strToFloat(amount);
+	const handleAmountChange = (newValue: string) => {
+		const formattedValue = strToFloat(newValue);
 		setAmount(Intl.NumberFormat('pt-BR', {
 			minimumFractionDigits: 0,
 			maximumFractionDigits: 3,
+			useGrouping: false,
 		}).format(formattedValue));
 	}
 
 	const handleAddProduct = () => {
-		onProductAdd(product.id, parseFloat(amount));
+		onProductAdd(product.id, strToFloat(amount));
 	}
 
 	if (!product) return null;
@@ -125,11 +120,12 @@ export default function RecipeItem({
 
 				<label className={styles.label}>
 					Quantidade:
-					<input
+					<SmartInput
 						className={`${styles.input} ${styles.inputSmall}`}
-						value={amount}
-						onChange={handleAmountChange}
-						onBlur={handleAmountBlur}
+						initialValue={amount}
+						allowEmpty={false}
+						allowedChars='0123456789,.'
+						onInputChange={handleAmountChange}
 					/>
 					{product.unit}
 				</label>
@@ -170,12 +166,16 @@ export default function RecipeItem({
 
 						{/* product amount */}
 						<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
-							<TableInput
+							<SmartInput
+								className={`${styles.input} ${styles.tableInput}`}
+								allowedChars='0123456789,.'
 								initialValue={Intl.NumberFormat('pt-BR', {
 									minimumFractionDigits: 0,
 									maximumFractionDigits: 3,
+									useGrouping: false,
 								}).format(ingredient.amount)}
-								onInputChange={newValue => onProductAmountChange(ingredient.ingredientId, parseFloat(newValue))}
+								allowEmpty={false}
+								onInputChange={newValue => onProductAmountChange(ingredient.ingredientId, strToFloat(newValue))}
 							/>
 						</span>
 

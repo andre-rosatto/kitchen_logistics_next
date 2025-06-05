@@ -3,7 +3,7 @@ import styles from './Products.module.css';
 import ListHeader from '@/components/ListHeader';
 import IconButton from '@/components/IconButton';
 import WaitOverlay from '@/components/WaitOverlay';
-import TableInput from '@/components/TableInput';
+import SmartInput from '@/components/SmartInput';
 import Summary from '@/components/Summary';
 import { isProduct, isProductArray, Product } from '@/typings/Product';
 
@@ -190,21 +190,21 @@ export default function Products() {
 							className={styles.tableRow}
 						>
 							<span className={`${styles.tableItem} ${styles.tableColumn}`}>
-								<TableInput
+								<SmartInput
 									initialValue={product.name}
 									allowEmpty={false}
 									onInputChange={value => handleProductChange(product.id, 'name', value)}
 								/>
 							</span>
 							<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
-								<TableInput
+								<SmartInput
 									initialValue={product.unit}
 									allowEmpty={false}
 									onInputChange={value => handleProductChange(product.id, 'unit', value)}
 								/>
 							</span>
 							<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
-								<TableInput
+								<SmartInput
 									initialValue={product.x1000}
 									onInputChange={value => handleProductChange(product.id, 'x1000', value)}
 								/>

@@ -29,6 +29,17 @@
   border-radius: var(--inputRadius);
   border: 1px solid var(--onPrimary);
   padding: 0.25rem 0.5rem;
+  width: 100%;
+}
+
+.tableInput {
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--onBackground);
+}
+
+.tableInput:active {
+  border: 1px solid var(--onBackground);
 }
 
 .headerInput {
@@ -101,7 +112,7 @@
 }
 
 .tableItem {
-  color: white;
+  color: var(--onBackground);
   padding: 0.25rem 0.5rem;
 }
 
