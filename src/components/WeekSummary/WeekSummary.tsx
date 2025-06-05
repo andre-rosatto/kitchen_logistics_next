@@ -36,6 +36,11 @@ export default function WeekSummary({ meals, recipes, products, ...props }: Week
 		return result;
 	}, [meals, recipes, products]);
 
+	const handleCopyClick = async () => {
+		const text = weekTotal.map(total => `${total.name}\t${getSummaryTotal(products, total)}`);
+		await navigator.clipboard.writeText(text.join('\n'));
+	}
+
 	return (
 		<section
 			className={styles.container}
@@ -46,7 +51,10 @@ export default function WeekSummary({ meals, recipes, products, ...props }: Week
 				<h3 className={styles.headerTitle}>Total de Produtos da Semana</h3>
 				<div className={styles.buttonsContainer}>
 					<button className={styles.button}>Imprimir</button>
-					<button className={styles.button}>Copiar</button>
+					<button
+						className={styles.button}
+						onClick={handleCopyClick}
+					>Copiar</button>
 				</div>
 			</div>
 
