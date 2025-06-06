@@ -34,10 +34,10 @@
 
 .button {
   border: none;
-  padding: 0.5rem 1rem;
   border-radius: var(--inputRadius);
   cursor: pointer;
-  box-sizing: border-box;
+  padding: 0;
+  padding: 0.5rem 1rem;
 }
 
 .table {

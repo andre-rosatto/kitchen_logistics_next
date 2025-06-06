@@ -5,6 +5,7 @@ import { Product } from '@/typings/Product';
 import { useMemo } from 'react';
 import { SummaryTotal } from '@/typings/SummaryTotal';
 import { getSummaryTotal } from '@/utils/getSummaryTotal';
+import TimedButton from '../TimedButton';
 
 interface WeekSummaryProps extends React.ComponentProps<'section'> {
 	meals: Meal[];
@@ -51,10 +52,12 @@ export default function WeekSummary({ meals, recipes, products, ...props }: Week
 				<h3 className={styles.headerTitle}>Total de Produtos da Semana</h3>
 				<div className={styles.buttonsContainer}>
 					<button className={styles.button}>Imprimir</button>
-					<button
+					<TimedButton
 						className={styles.button}
-						onClick={handleCopyClick}
-					>Copiar</button>
+						onButtonClick={handleCopyClick}
+						delay={2000}
+						timedNode='✔ Copiado'
+					>Copiar</TimedButton>
 				</div>
 			</div>
 
