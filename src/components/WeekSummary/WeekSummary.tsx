@@ -42,10 +42,6 @@ export default function WeekSummary({ meals, recipes, products, ...props }: Week
 		await navigator.clipboard.writeText(text.join('\n'));
 	}
 
-	const handlePrintClick = () => {
-
-	}
-
 	return (
 		<section
 			className={styles.container}
@@ -57,7 +53,7 @@ export default function WeekSummary({ meals, recipes, products, ...props }: Week
 				<div className={styles.buttonsContainer}>
 					<button
 						className={styles.button}
-						onClick={handlePrintClick}
+						onClick={() => window.print()}
 					>Imprimir</button>
 					<TimedButton
 						className={styles.button}

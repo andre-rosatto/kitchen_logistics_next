@@ -34,6 +34,7 @@ export default function MealsItem({ meal, recipes, onAddMeal, onDeleteMeal, onCh
 			{/* header */}
 			<div className={styles.header}>
 				<Image
+					className={styles.headerIcon}
 					src={DAYS[meal.day].icon}
 					alt={DAYS[meal.day].name}
 					title={DAYS[meal.day].name}

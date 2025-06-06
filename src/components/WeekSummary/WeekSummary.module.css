@@ -65,3 +65,24 @@
 .tableAmount {
   white-space: nowrap;
 }
+
+@media print {
+  .container {
+    max-height: fit-content;
+    border: none;
+  }
+
+  .buttonsContainer {
+    display: none;
+  }
+
+  .table {
+    overflow: visible;
+    border-left: 1px solid var(--primary);
+  }
+
+  .tableRow {
+    border-right: 1px solid var(--primary);
+    border-bottom: 1px solid var(--primary);
+  }
+}

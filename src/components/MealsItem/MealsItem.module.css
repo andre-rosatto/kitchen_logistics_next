@@ -85,3 +85,17 @@
   border: 1px solid var(--onPrimary);
   padding: 0.25rem 0.5rem;
 }
+
+@media print {
+  .container {
+    border-radius: 0;
+  }
+
+  .mealContainer {
+    display: none;
+  }
+
+  .headerIcon {
+    display: none;
+  }
+}

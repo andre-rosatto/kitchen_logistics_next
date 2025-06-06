@@ -65,3 +65,19 @@
 .tableItemAmount {
   white-space: nowrap;
 }
+
+@media print {
+  .container {
+    border-radius: 0;
+    overflow: visible;
+    border: none;
+  }
+
+  .header {
+    display: none;
+  }
+
+  .tableItem {
+    color: var(--onPrimary);
+  }
+}

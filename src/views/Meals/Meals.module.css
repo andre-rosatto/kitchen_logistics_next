@@ -27,3 +27,20 @@
   flex-direction: column;
   gap: 0.25rem;
 }
+
+@media print {
+  .container {
+    padding: 0;
+    height: fit-content;
+    gap: 2rem;
+  }
+
+  .daysContainer {
+    height: auto;
+    overflow: visible;
+  }
+
+  .dayContainer {
+    gap: 0;
+  }
+}
