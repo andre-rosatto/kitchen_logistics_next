@@ -38,7 +38,7 @@ export default function ProductsSummary({ initialAmount, mealRecipes, recipes, p
 			});
 		});
 		return result;
-	}, [products, initialAmount]);
+	}, [products, initialAmount, mealRecipes, recipes]);
 
 	useEffect(() => {
 		setAmount(initialAmount);
