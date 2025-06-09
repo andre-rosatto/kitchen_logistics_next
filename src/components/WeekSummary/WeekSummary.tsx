@@ -15,7 +15,7 @@ interface WeekSummaryProps extends React.ComponentProps<'section'> {
 
 export default function WeekSummary({ meals, recipes, products, ...props }: WeekSummaryProps) {
 	const weekTotal = useMemo((): SummaryTotal[] => {
-		let result: SummaryTotal[] = [];
+		const result: SummaryTotal[] = [];
 		meals.forEach(meal => {
 			meal.recipes.forEach(mealRecipe => {
 				const recipe = recipes.find(r => mealRecipe.recipeId === r.id)!;
