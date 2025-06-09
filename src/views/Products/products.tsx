@@ -6,6 +6,7 @@ import WaitOverlay from '@/components/WaitOverlay';
 import SmartInput from '@/components/SmartInput';
 import Summary from '@/components/Summary';
 import { isProduct, isProductArray, Product } from '@/typings/Product';
+import Navbar from '@/components/Navbar';
 
 type ProductField = 'name' | 'unit' | 'x1000';
 
@@ -127,104 +128,107 @@ export default function Products() {
 	}
 
 	return (
-		<main className={styles.container}>
-			{/* Summary */}
-			<Summary
-				items={products}
-			/>
+		<>
+			<Navbar />
+			<main className={styles.container}>
+				{/* Summary */}
+				<Summary
+					items={products}
+				/>
 
-			{/* main */}
-			<div className={styles.listContainer}>
-				{/* header */}
-				<ListHeader />
+				{/* main */}
+				<div className={styles.listContainer}>
+					{/* header */}
+					<ListHeader />
 
-				{/* new product bar */}
-				<div className={styles.addBar}>
-					<label className={styles.label}>
-						Novo produto:
-						<input
-							className={styles.input}
-							value={newProduct.name}
-							onChange={e => handleNewProductChange('name', e.currentTarget.value)}
+					{/* new product bar */}
+					<div className={styles.addBar}>
+						<label className={styles.label}>
+							Novo produto:
+							<input
+								className={styles.input}
+								value={newProduct.name}
+								onChange={e => handleNewProductChange('name', e.currentTarget.value)}
+							/>
+						</label>
+						<label className={`${styles.label} ${styles.inputSmall}`}>
+							Unidade:
+							<input
+								className={styles.input}
+								value={newProduct.unit}
+								onChange={e => handleNewProductChange('unit', e.currentTarget.value)}
+							/>
+						</label>
+						<label className={`${styles.label} ${styles.inputSmall}`}>
+							x1000:
+							<input
+								className={styles.input}
+								value={newProduct.x1000}
+								onChange={e => handleNewProductChange('x1000', e.currentTarget.value)}
+							/>
+						</label>
+						<IconButton
+							className={styles.iconButton}
+							buttonType='add'
+							onClick={handleAddProduct}
+							disabled={newProduct.name.trim() === '' || newProduct.unit.trim() === ''}
 						/>
-					</label>
-					<label className={`${styles.label} ${styles.inputSmall}`}>
-						Unidade:
-						<input
-							className={styles.input}
-							value={newProduct.unit}
-							onChange={e => handleNewProductChange('unit', e.currentTarget.value)}
-						/>
-					</label>
-					<label className={`${styles.label} ${styles.inputSmall}`}>
-						x1000:
-						<input
-							className={styles.input}
-							value={newProduct.x1000}
-							onChange={e => handleNewProductChange('x1000', e.currentTarget.value)}
-						/>
-					</label>
-					<IconButton
-						className={styles.iconButton}
-						buttonType='add'
-						onClick={handleAddProduct}
-						disabled={newProduct.name.trim() === '' || newProduct.unit.trim() === ''}
-					/>
+					</div>
+
+					{/* table */}
+					{/* table head */}
+					<div className={styles.tableHead}>
+						<span className={`${styles.tableHeadItem} ${styles.tableColumn}`}>Produto</span>
+						<span className={`${styles.tableHeadItem} ${styles.tableColumnSmall}`}>Unidade</span>
+						<span className={`${styles.tableHeadItem} ${styles.tableColumnSmall}`}>x1000</span>
+						<span className={`${styles.tableHeadItem} ${styles.tableColumnIcon}`}></span>
+					</div>
+
+					{/* table body */}
+					<div className={styles.table}>
+						{products.map(product => (
+							<div
+								key={product.id}
+								id={`_${product.id}`}
+								className={styles.tableRow}
+							>
+								<span className={`${styles.tableItem} ${styles.tableColumn}`}>
+									<SmartInput
+										className={styles.tableInput}
+										initialValue={product.name}
+										allowEmpty={false}
+										onInputChange={value => handleProductChange(product.id, 'name', value)}
+									/>
+								</span>
+								<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
+									<SmartInput
+										className={styles.tableInput}
+										initialValue={product.unit}
+										allowEmpty={false}
+										onInputChange={value => handleProductChange(product.id, 'unit', value)}
+									/>
+								</span>
+								<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
+									<SmartInput
+										className={styles.tableInput}
+										initialValue={product.x1000}
+										onInputChange={value => handleProductChange(product.id, 'x1000', value)}
+									/>
+								</span>
+								<span className={`${styles.tableItem} ${styles.tableColumnIcon}`}>
+									<IconButton
+										buttonType='delete'
+										onClick={() => handleProductDelete(product.id)}
+									/>
+								</span>
+							</div>
+						))}
+					</div>
 				</div>
 
-				{/* table */}
-				{/* table head */}
-				<div className={styles.tableHead}>
-					<span className={`${styles.tableHeadItem} ${styles.tableColumn}`}>Produto</span>
-					<span className={`${styles.tableHeadItem} ${styles.tableColumnSmall}`}>Unidade</span>
-					<span className={`${styles.tableHeadItem} ${styles.tableColumnSmall}`}>x1000</span>
-					<span className={`${styles.tableHeadItem} ${styles.tableColumnIcon}`}></span>
-				</div>
-
-				{/* table body */}
-				<div className={styles.table}>
-					{products.map(product => (
-						<div
-							key={product.id}
-							id={`_${product.id}`}
-							className={styles.tableRow}
-						>
-							<span className={`${styles.tableItem} ${styles.tableColumn}`}>
-								<SmartInput
-									className={styles.tableInput}
-									initialValue={product.name}
-									allowEmpty={false}
-									onInputChange={value => handleProductChange(product.id, 'name', value)}
-								/>
-							</span>
-							<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
-								<SmartInput
-									className={styles.tableInput}
-									initialValue={product.unit}
-									allowEmpty={false}
-									onInputChange={value => handleProductChange(product.id, 'unit', value)}
-								/>
-							</span>
-							<span className={`${styles.tableItem} ${styles.tableColumnSmall}`}>
-								<SmartInput
-									className={styles.tableInput}
-									initialValue={product.x1000}
-									onInputChange={value => handleProductChange(product.id, 'x1000', value)}
-								/>
-							</span>
-							<span className={`${styles.tableItem} ${styles.tableColumnIcon}`}>
-								<IconButton
-									buttonType='delete'
-									onClick={() => handleProductDelete(product.id)}
-								/>
-							</span>
-						</div>
-					))}
-				</div>
-			</div>
-
-			{/* wait overlay */}
-			{waiting && <WaitOverlay />}
-		</main>
+				{/* wait overlay */}
+				{waiting && <WaitOverlay />}
+			</main>
+		</>
 	)
 }

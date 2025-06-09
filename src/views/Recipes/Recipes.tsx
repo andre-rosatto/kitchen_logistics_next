@@ -7,6 +7,7 @@ import IconButton from '@/components/IconButton';
 import RecipeItem from '@/components/RecipeItem';
 import { isRecipeArray, Recipe } from '@/typings/Recipe';
 import { Product } from '@/typings/Product';
+import Navbar from '@/components/Navbar';
 
 export default function Recipes() {
 	const [newRecipe, setNewRecipe] = useState('');
@@ -175,51 +176,54 @@ export default function Recipes() {
 	}
 
 	return (
-		<main className={styles.container}>
-			{/* Summary */}
-			<Summary items={recipes} />
+		<>
+			<Navbar />
+			<main className={styles.container}>
+				{/* Summary */}
+				<Summary items={recipes} />
 
-			<div className={styles.listContainer}>
-				{/* header */}
-				<ListHeader />
+				<div className={styles.listContainer}>
+					{/* header */}
+					<ListHeader />
 
-				{/* new product bar */}
-				<div className={styles.addBar}>
-					<label className={styles.label}>
-						Nova receita:
-						<input
-							className={styles.input}
-							value={newRecipe}
-							onChange={e => setNewRecipe(e.currentTarget.value)}
+					{/* new product bar */}
+					<div className={styles.addBar}>
+						<label className={styles.label}>
+							Nova receita:
+							<input
+								className={styles.input}
+								value={newRecipe}
+								onChange={e => setNewRecipe(e.currentTarget.value)}
+							/>
+						</label>
+						<IconButton
+							className={styles.iconButton}
+							buttonType='add'
+							onClick={handleAddRecipe}
+							disabled={newRecipe.trim() === ''}
 						/>
-					</label>
-					<IconButton
-						className={styles.iconButton}
-						buttonType='add'
-						onClick={handleAddRecipe}
-						disabled={newRecipe.trim() === ''}
-					/>
+					</div>
+
+					<div className={styles.recipesContainer}>
+						{recipes.map(recipe => (
+							<RecipeItem
+								key={recipe.id}
+								recipe={recipe}
+								products={products}
+								onRecipeNameChange={handleRecipeNameChange}
+								onRecipeDelete={handleRecipeDelete}
+								onProductAdd={(id, amount) => handleProductAdd(recipe.id, id, amount)}
+								onProductDelete={ingredientId => handleProductDelete(recipe.id, ingredientId)}
+								onProductChange={(ingredientId, productId) => handleProductChange(recipe.id, ingredientId, productId)}
+								onProductAmountChange={(ingredientId, amount) => handleProductAmountChange(recipe.id, ingredientId, amount)}
+							/>
+						))}
+					</div>
 				</div>
 
-				<div className={styles.recipesContainer}>
-					{recipes.map(recipe => (
-						<RecipeItem
-							key={recipe.id}
-							recipe={recipe}
-							products={products}
-							onRecipeNameChange={handleRecipeNameChange}
-							onRecipeDelete={handleRecipeDelete}
-							onProductAdd={(id, amount) => handleProductAdd(recipe.id, id, amount)}
-							onProductDelete={ingredientId => handleProductDelete(recipe.id, ingredientId)}
-							onProductChange={(ingredientId, productId) => handleProductChange(recipe.id, ingredientId, productId)}
-							onProductAmountChange={(ingredientId, amount) => handleProductAmountChange(recipe.id, ingredientId, amount)}
-						/>
-					))}
-				</div>
-			</div>
-
-			{/* wait overlay */}
-			{waiting && <WaitOverlay />}
-		</main>
+				{/* wait overlay */}
+				{waiting && <WaitOverlay />}
+			</main>
+		</>
 	);
 }

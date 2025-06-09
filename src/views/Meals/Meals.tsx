@@ -7,6 +7,7 @@ import { isRecipeArray, Recipe } from '@/typings/Recipe';
 import { isProductArray, Product } from '@/typings/Product';
 import ProductsSummary from '@/components/ProductsSummary';
 import WeekSummary from '@/components/WeekSummary';
+import Navbar from '@/components/Navbar';
 
 export default function Meals() {
 	const [waiting, setWaiting] = useState(false);
@@ -128,42 +129,45 @@ export default function Meals() {
 	}
 
 	return (
-		<main className={styles.container}>
-			{/* days */}
-			<div className={styles.daysContainer}>
-				{meals.map(meal => (
-					<div
-						key={meal.id}
-						className={styles.dayContainer}
-					>
-						<MealsItem
+		<>
+			<Navbar />
+			<main className={styles.container}>
+				{/* days */}
+				<div className={styles.daysContainer}>
+					{meals.map(meal => (
+						<div
 							key={meal.id}
-							meal={meal}
-							recipes={recipes}
-							onAddMeal={isLunch => handleAddMeal(meal, isLunch)}
-							onDeleteMeal={id => handleDeleteMeal(meal, id)}
-							onChangeMeal={(id, recipeId) => handleChangeMeal(meal, id, recipeId)}
-						/>
-						<ProductsSummary
-							initialAmount={meal.amount}
-							products={products}
-							recipes={recipes}
-							mealRecipes={meal.recipes}
-							onAmountChange={value => handleAmountChange(meal, value)}
-						/>
-					</div>
-				))}
-			</div>
+							className={styles.dayContainer}
+						>
+							<MealsItem
+								key={meal.id}
+								meal={meal}
+								recipes={recipes}
+								onAddMeal={isLunch => handleAddMeal(meal, isLunch)}
+								onDeleteMeal={id => handleDeleteMeal(meal, id)}
+								onChangeMeal={(id, recipeId) => handleChangeMeal(meal, id, recipeId)}
+							/>
+							<ProductsSummary
+								initialAmount={meal.amount}
+								products={products}
+								recipes={recipes}
+								mealRecipes={meal.recipes}
+								onAmountChange={value => handleAmountChange(meal, value)}
+							/>
+						</div>
+					))}
+				</div>
 
-			{/* week summary */}
-			<WeekSummary
-				meals={meals}
-				recipes={recipes}
-				products={products}
-			/>
+				{/* week summary */}
+				<WeekSummary
+					meals={meals}
+					recipes={recipes}
+					products={products}
+				/>
 
-			{/* wait overlay */}
-			{waiting && <WaitOverlay />}
-		</main>
+				{/* wait overlay */}
+				{waiting && <WaitOverlay />}
+			</main>
+		</>
 	);
 }

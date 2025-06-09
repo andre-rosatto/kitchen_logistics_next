@@ -5,30 +5,29 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
-	const recipeId = req.query['recipeId'];
-	const mealId = req.query['mealId'];
-	const isLunch = req.query['isLunch'];
+	const email = req.query['email'];
+	const password = req.query['password'];
 
-	if (!recipeId || !mealId) {
+	if (!email || !password) {
 		res.status(401).json({
 			ok: false,
-			error: 'recipeId, mealId and isLunch are required.'
+			error: 'email and password are required.'
 		});
 	}
 
 	const client = new Pool({ connectionString: process.env.CONNECTION_STRING });
-	console.log('connected (add_meal)');
+	console.log('connected (login)');
 
 	try {
 		await client.connect();
-		const data = await client.query(`
-			INSERT INTO meals_recipes (recipe_id, meal_id, is_lunch)
-			VALUES ($1, $2, $3)
-			RETURNING id, recipe_id;
-		`, [recipeId, mealId, isLunch]);
+		const user = await client.query(`
+			SELECT id
+			FROM users
+			WHERE email=$1 and password=$2;
+		`, [email, password]);
+
 		res.status(200).json({
-			ok: true,
-			data: data.rows[0],
+			ok: user.rowCount && user.rowCount > 0,
 		});
 	} catch (e) {
 		res.status(401).json({

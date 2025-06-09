@@ -1,8 +1,7 @@
-import styles from "@/styles/Home.module.css";
 import Head from "next/head";
 import ViewContextProvider from "@/contexts/ViewContext";
-import Navbar from "@/components/Navbar";
 import ViewSwitcher from "@/components/ViewSwitcher";
+import AuthContextProvider from "@/contexts/AuthContext";
 
 
 export default function Home() {
@@ -14,10 +13,11 @@ export default function Home() {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<ViewContextProvider>
-				<Navbar />
-				<ViewSwitcher />
-			</ViewContextProvider>
+			<AuthContextProvider>
+				<ViewContextProvider>
+					<ViewSwitcher />
+				</ViewContextProvider>
+			</AuthContextProvider>
 		</>
 	);
 }

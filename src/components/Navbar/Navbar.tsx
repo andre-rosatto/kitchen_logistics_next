@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import styles from './Navbar.module.css';
 import { useViewContext } from '@/contexts/ViewContext';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 const PAGES = [
 	{ title: 'Pratos', icon: '/assets/dish_icon.svg' },
@@ -10,6 +11,7 @@ const PAGES = [
 
 export default function Navbar() {
 	const { view, setView } = useViewContext();
+	const { setLogged } = useAuthContext();
 
 	const handlePageChange = (e: React.MouseEvent<HTMLAnchorElement>, idx: number) => {
 		e.preventDefault();
@@ -40,6 +42,12 @@ export default function Navbar() {
 						</a>
 					</li>
 				)}
+				<li>
+					<button
+						className={styles.button}
+						onClick={() => setLogged(false)}
+					>Sair</button>
+				</li>
 			</ul>
 		</nav>
 	);

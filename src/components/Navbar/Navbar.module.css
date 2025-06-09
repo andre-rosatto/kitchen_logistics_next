@@ -7,6 +7,7 @@
 
 .menuBar {
   display: flex;
+  align-items: center;
   list-style: none;
   margin: 0;
   justify-content: space-around;
@@ -36,6 +37,14 @@
 .icon {
   width: 1.5rem;
   height: 1.5rem;
+}
+
+.button {
+  border: none;
+  border-radius: var(--inputRadius);
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  width: fit-content;
 }
 
 /* print */
