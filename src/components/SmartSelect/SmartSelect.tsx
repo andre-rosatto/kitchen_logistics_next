@@ -9,7 +9,7 @@ interface TableSelectProps extends React.ComponentProps<'select'> {
 	onSelectChange: (id: string) => void;
 }
 
-export default function SmartSelect({ items, initialValue, className = '', onSelectChange, ...props }: TableSelectProps) {
+export default function SmartSelect({ items, initialValue, className = '', onSelectChange, ...props }: Readonly<TableSelectProps>) {
 	const [selectedId, setSelectedId] = useState(initialValue || items[0].id);
 
 	const handleOnChange = (e: React.SyntheticEvent<HTMLSelectElement>) => {

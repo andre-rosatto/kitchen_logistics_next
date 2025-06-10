@@ -8,7 +8,14 @@ interface SmartInputProps extends React.ComponentProps<'input'> {
 	onInputChange: (newValue: string) => void;
 }
 
-export default function SmartInput({ className = '', allowedChars = '', allowEmpty = true, initialValue, onInputChange, ...props }: SmartInputProps) {
+export default function SmartInput({
+	className = '',
+	allowedChars = '',
+	allowEmpty = true,
+	initialValue,
+	onInputChange,
+	...props
+}: Readonly<SmartInputProps>) {
 	const [value, setValue] = useState(initialValue);
 
 	useEffect(() => {

@@ -9,7 +9,7 @@ interface SummaryProps extends React.ComponentProps<'section'> {
 	items: Product[] | Recipe[],
 }
 
-export default function Summary({ items, ...props }: SummaryProps) {
+export default function Summary({ items, ...props }: Readonly<SummaryProps>) {
 	const { view } = useViewContext();
 	const sortedItems = useMemo(() => [...items].sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })), [items]);
 

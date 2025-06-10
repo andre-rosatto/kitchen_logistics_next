@@ -15,7 +15,7 @@ interface ProductsSummaryProps extends React.ComponentProps<'div'> {
 	onAmountChange: (value: number) => void;
 }
 
-export default function ProductsSummary({ initialAmount, mealRecipes, recipes, products, onAmountChange, ...props }: ProductsSummaryProps) {
+export default function ProductsSummary({ initialAmount, mealRecipes, recipes, products, onAmountChange, ...props }: Readonly<ProductsSummaryProps>) {
 	const [amount, setAmount] = useState(initialAmount);
 
 	const productsTotal = useMemo((): SummaryTotal[] => {

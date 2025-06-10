@@ -13,7 +13,7 @@ interface WeekSummaryProps extends React.ComponentProps<'section'> {
 	products: Product[];
 }
 
-export default function WeekSummary({ meals, recipes, products, ...props }: WeekSummaryProps) {
+export default function WeekSummary({ meals, recipes, products, ...props }: Readonly<WeekSummaryProps>) {
 	const weekTotal = useMemo((): SummaryTotal[] => {
 		const result: SummaryTotal[] = [];
 		meals.forEach(meal => {

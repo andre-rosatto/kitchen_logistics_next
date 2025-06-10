@@ -29,7 +29,7 @@ export default function RecipeItem({
 	onProductChange,
 	onProductAmountChange,
 	...props
-}: RecipeItemProps) {
+}: Readonly<RecipeItemProps>) {
 	const [name, setName] = useState(recipe.name);
 	const [amount, setAmount] = useState('0');
 	const [product, setProduct] = useState<Product>(products[0]);

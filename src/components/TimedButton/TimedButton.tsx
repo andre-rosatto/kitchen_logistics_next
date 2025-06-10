@@ -8,7 +8,14 @@ interface TimedButtonProps extends React.ComponentProps<'button'> {
 	onButtonClick: () => void;
 }
 
-export default function TimedButton({ delay, timedNode, className = '', onButtonClick, children, ...props }: TimedButtonProps) {
+export default function TimedButton({
+	delay,
+	timedNode,
+	className = '',
+	onButtonClick,
+	children,
+	...props
+}: Readonly<TimedButtonProps>) {
 	const [timer, setTimer] = useState<number | null>(null);
 
 	const handleClick = () => {

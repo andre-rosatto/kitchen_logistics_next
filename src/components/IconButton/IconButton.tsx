@@ -6,7 +6,7 @@ interface AddButtonProps extends React.ComponentProps<'button'> {
 	className?: string;
 }
 
-export default function IconButton({ buttonType, className = '', ...props }: AddButtonProps) {
+export default function IconButton({ buttonType, className = '', ...props }: Readonly<AddButtonProps>) {
 	return (
 		<button
 			className={`${styles.container} ${className} ${buttonType === 'add' ? styles.add : styles.delete}`}

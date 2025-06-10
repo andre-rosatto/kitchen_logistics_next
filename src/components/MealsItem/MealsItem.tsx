@@ -23,7 +23,7 @@ const DAYS = [
 	{ name: 'Sábado', icon: '/assets/saturday_icon.svg' },
 ];
 
-export default function MealsItem({ meal, recipes, onAddMeal, onDeleteMeal, onChangeMeal, ...props }: MealsItemProps) {
+export default function MealsItem({ meal, recipes, onAddMeal, onDeleteMeal, onChangeMeal, ...props }: Readonly<MealsItemProps>) {
 	if (!meal || recipes.length === 0) return null;
 
 	return (
